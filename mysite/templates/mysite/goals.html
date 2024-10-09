@@ -1,0 +1,176 @@
+{% extends 'mysite/layout.html' %}
+
+<!-- use this to change the title if needed -->
+{% block title %}
+Trent Kontovich: Goals
+{% endblock %}
+
+<!-- add page content here -->
+{% block body %}
+
+<!-- overall summary section -->
+<div class="header" id="goals-header">
+    <div class="header-content">
+        <div class="headline">
+            <h1 class="page-heading main-headline">2025 Goals</h1>
+            <div>
+                <p class="body-text">
+                    Overall for 2025, I wanted to accomplish a few
+                    challenging goals (for me at least)
+                    across a few of the activities I like to do the most:
+                </p>
+                <ol>
+                    <li class="body-text">Climb 5.13a <em>and</em> 5.13b</li>
+                    <li class="body-text">Run {{ running_results.running_goal }} miles</li>
+                    <li class="body-text">Read 24 books</li>
+                </ol>
+            </div>
+            <div id="overall-progress" class="progress">
+                <div 
+                    class="progress-bar {{ total_results.total_status }}" 
+                    role="progressbar" 
+                    style="width: {{ total_results.total_current_progress|floatformat:2 }}%"
+                    aria-valuenow="{{ total_results.total_current_progress|floatformat:2 }}" aria-valuemin="0"
+                    aria-valuemax="100">
+                    {{ total_results.total_current_progress|floatformat:2 }}% complete
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- climbing section -->
+
+<div id="goals-main">
+    <div class="main body-text">
+
+        <section id="climbing">
+            <h2 class="header-text">Climbing</h2>
+            <p class="subheader-text">Goal: 5.13a and 5.13b</p>
+            <div id="climbing-goals">
+                <div id="climbing-goal-1">
+                    <img class="yes-no-icon" src="
+            {% if climbing_results.climbed_7c == True %}
+            /static/mysite/yes.png
+            {% else %}
+            /static/mysite/no.png
+            {% endif %}
+            ">
+                    <h4>5.13a</h4>
+                </div>
+                <div id="climbing-goal-2">
+                    <img class="yes-no-icon" src="
+            {% if climbing_results.climbed_8a == True %}
+            /static/mysite/yes.png
+            {% else %}
+            /static/mysite/no.png
+            {% endif %}
+            ">
+                    <h4>5.13b</h4>
+                </div>
+            </div>
+            <div id="climbing-data-table" class="d-flex justify-content-left">
+                <table class="table">
+                    <thead class="thead-white">
+                        <tr>
+                            <th scope="col">Route</th>
+                            <th scope="col">Grade</th>
+                            <th scope="col">Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ascent in climbing_results.climbing_ascents_list %}
+                        <tr>
+                            <td>{{ ascent.route }}</th>
+                            <td>{{ ascent.grade }}</th>
+                            <td>{{ ascent.location }}</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <hr>
+
+        <!-- running section -->
+
+        <section id="running">
+            <h2 class="header-text">Running</h2>
+            <p class="subheader-text">Goal: 365 miles</p>
+
+            <div id="running-progress" class="progress">
+                <div 
+                    class="progress-bar {{ running_results.running_status }}" 
+                    role="progressbar"
+                    style="width: {{ running_results.running_progress_percentage|floatformat:0 }}%"
+                    aria-valuenow="{{ running_results.running_progress_percentage|floatformat:0 }}" 
+                    aria-valuemin="0"
+                    aria-valuemax="100">    
+                    {{ running_results.running_current_miles|floatformat:2 }} miles
+                </div>
+            </div>
+
+            <div id="running-data">
+                <div id="run-count">
+                    <h4>Total runs</h4>
+                    <p>{{ running_results.running_current_runs }}</p>
+                </div>
+                <div id="average-distance">
+                    <h4>Avg. distance</h4>
+                    <p>{{ running_results.running_current_avg_distance|floatformat:2 }} miles</p>
+                </div>
+                <div id="average-pace">
+                    <h4>Avg. pace</h4>
+                    <p>{{ running_results.running_current_avg_pace }} min/mi</p>
+                </div>
+                <div id="calory-count">
+                    <h4>Calories burned</h4>
+                    <p>{{ running_results.running_current_total_calories|floatformat:"0g" }}</p>
+                </div>
+            </div>
+        </section>
+        <hr>
+
+        <!-- reading section -->
+
+        <section id="reading">
+            <h2 class="header-text">Reading</h2>
+            <p class="subheader-text">Goal: 24 books</p>
+            <div id="reading-progress" class="progress">
+                <div 
+                    class="progress-bar {{ reading_results.reading_status }}" 
+                    role="progressbar"
+                    style="width: {{ reading_results.reading_progress_percentage }}%"
+                    aria-valuenow="{{ reading_results.reading_progress_percentage }}" 
+                    aria-valuemin="0"
+                    aria-valuemax="100">
+                    {{reading_results.reading_current_books }} books
+                </div>
+            </div>
+
+            <div id="reading-data-table" class="d-flex justify-content-left">
+                <table class="table">
+                    <thead class="thead-white">
+                        <tr>
+                            <th scope="col">Book</th>
+                            <th scope="col">Author</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in reading_results.reading_books_list %}
+                        <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.author }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endblock %}

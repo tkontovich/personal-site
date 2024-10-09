@@ -1,0 +1,603 @@
+<!-- MULTI PAGE-->
+
+{% extends 'mysite/layout.html' %}
+
+<!-- use this to change the title if needed -->
+{% block title %}
+Trent Kontovich: Home
+{% endblock %}
+
+<!-- add page content here -->
+{% block body %}
+<div id="index-header" class="header">
+    <div class="header-content">
+        <div id="index-headline">
+            <h1 class="page-heading main-headline">Hi there, I'm Trent</h1>
+            <p class="body-text">
+                Welcome to my site! You can use this to learn a bit more about me,
+                get in touch, check out my work history,
+                or even look at the progress I've made towards some
+                of the goals I set for myself for 2024.
+            </p>
+        </div>
+        <div id="index-image">
+            <div id="index-image-placeholder"></div>
+        </div>
+    </div>
+</div>
+
+<div id="index-main" class="main body-text">
+    <div id="about-me">
+        <h2 class="header-text">About me</h2>
+        <p>
+            I'm a rock climber, dog dad, Design Program Manager, and very occasional runner
+            living in Seattle, WA. I haven't always been here, though! I'm originally from Chattanooga, TN,
+            but moved out to the West coast in 2014.
+        </p>
+        <p>
+            Over the past 10+ years I've spent time at Amazon, Meta, and startups helping Design teams find better ways
+            of operating, both with themselves and with other teams. Also, I <em>love</em> building up technical skills
+            through doing little side projects, like this site you're on right now!
+        </p>
+    </div>
+
+    <div id="index-links">
+        <h2 class="header-text">Want to see more?</h2>
+        <ul>
+            <li><a href="https://www.linkedin.com/in/trent-kontovich/">LinkedIn</a></li>
+            <li><a href="https://github.com/tkontovich">GitHub</a></li>
+        </ul>
+    </div>
+
+    <div id="contact">
+        <h2 class="header-text">Get in touch</h2>
+        <form id="contact-form">
+            <div>
+                <label for="email">Your email</label><br>
+                <input type="email" name="email">
+            </div>
+            <div>
+                <label for="name">Your name</label><br>
+                <input type="text" name="name">
+            </div>
+            <div>
+                <label for="message">Message</label><br>
+                <textarea type="text" name="message" cols="40" id="message"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Send" class="btn btn-outline-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+<!-- SINGLE PAGE-->
+
+{% extends 'mysite/layout.html' %}
+{% load static %}
+
+<!-- use this to change the title if needed -->
+{% block title %}
+Trent Kontovich
+{% endblock %}
+
+<!-- add page content here -->
+{% block body %}
+<div id="header">
+    <div class="header" id="index-header">
+        <div class="header-content">
+            <div id="index-headline">
+                <h1 class="page-heading main-headline">Hi there, I'm Trent</h1>
+                <p class="body-text">
+                    Welcome to my site! You can use this to learn a bit more about me,
+                    get in touch, check out my work history,
+                    or even look at the progress I've made towards some
+                    of the goals I set for myself for 2024.
+                </p>
+            </div>
+            <div id="index-image">
+                <div id="index-image-placeholder"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header" id="resume-header">
+        <div class="header-content">
+            <h1 class="main-headline">Resume</h1>
+            <p id="description" class="body-text">
+                Interested in my work experience? Get the details below!
+            </p>
+        </div>
+    </div>
+
+    <div class="header" id="goals-header">
+        <div class="header-content">
+            <h1 class="main-headline">2025 Goals</h1>
+            <div>
+                <p id="description" class="body-text">
+                    Overall for 2025, I wanted to accomplish a few
+                    challenging goals (for me at least)
+                    across a few of the activities I like to do the most:
+                </p>
+                <ol>
+                    <li class="body-text">Climb 5.13a <em>and</em> 5.13b</li>
+                    <li class="body-text">Run {{ running_results.running_goal }} miles</li>
+                    <li class="body-text">Read 24 books</li>
+                </ol>
+            </div>
+            <div id="overall-progress" class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 50%"
+                    aria-valuenow="{{ overall_results.overall_progress_percentage|floatformat:2 }}" aria-valuemin="0"
+                    aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="main">
+    <div id="index-main" class="main body-text">
+        <div id="about-me">
+            <h2 class="header-text">About me</h2>
+            <p>
+                I'm a rock climber, dog dad, Design Program Manager, and very occasional runner
+                living in Seattle, WA. I haven't always been here, though! I'm originally from Chattanooga, TN,
+                but moved out to the West coast in 2014.
+            </p>
+            <p>
+                Over the past 10+ years I've spent time at Amazon, Meta, and startups helping Design teams find better
+                ways
+                of operating, both with themselves and with other teams. Also, I <em>love</em> building up technical
+                skills
+                through doing little side projects, like this site you're on right now!
+            </p>
+        </div>
+
+        <div id="index-links">
+            <h2 class="header-text">Want to see more?</h2>
+            <ul>
+                <li><a href="https://www.linkedin.com/in/trent-kontovich/">LinkedIn</a></li>
+                <li><a href="https://github.com/tkontovich">GitHub</a></li>
+            </ul>
+        </div>
+
+        <div id="contact">
+            <h2 class="header-text">Get in touch</h2>
+            <form id="contact-form">
+                <div>
+                    <label for="email">Your email</label><br>
+                    <input type="email" name="email">
+                </div>
+                <div>
+                    <label for="name">Your name</label><br>
+                    <input type="text" name="name">
+                </div>
+                <div>
+                    <label for="message">Message</label><br>
+                    <textarea type="text" name="message" cols="40" id="message"></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="Send" class="btn btn-outline-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="main body-text" id="resume-main">
+
+        <div class="position">
+            <div class="position-info">
+                <h2 class="title header-text">Staff Design Operations Program Manager</h2>
+                <p class="company subheader-text">RentSpree</p>
+                <p class="dates subheader-text">June 2023 - Present</p>
+            </div>
+            <div class="summary">
+                <p>
+                    Owned operations for RentSpree’s Design & Research org.
+                </p>
+                <ul>
+                    <li>
+                        Defined and built out JIRA for the Design, Research, and Marketing orgs. Partnered with cross-
+                        functional teams to integrate JIRA workflows between teams, allowing the organization to reduce
+                        the
+                        number of tools being used while creating efficiency for functional teams to work together.
+                    </li>
+                    <li>
+                        Drove organization, tracking, reporting, and partner collaboration for a company-wide initiative
+                        to redesign the RentSpree site. Partnered with Engineering and Product Management to break this
+                        large initiative into manageable pieces of work to achieve the larger end goal.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="position">
+            <div class="position-info">
+                <h2 class="title header-text">Design Program Manager</h2>
+                <p class="company subheader-text">Meta</p>
+                <p class="dates subheader-text">May 2022 - June 2023</p>
+            </div>
+            <div class="summary">
+                <p>
+                    Design Program Manager for the Messenger Design System and broader messaging platform initiatives.
+                    Owned
+                    operational excellence and integration of our team with cross-functional partners and the larger
+                    product
+                    organization.
+                </p>
+                <ul>
+                    <li>
+                        Created, owned, and iterated on Design team processes for how we interact and work with
+                        cross-functional
+                        partners and how we support other Design teams at the company that rely on our design system.
+                        This
+                        included
+                        custom project tracking systems, scalable reporting mechanisms, building support processes,
+                        automating
+                        the
+                        support request flows, and roadmapping and prioritization process and framework for the
+                        cross-functional
+                        team.
+                    </li>
+                    <li>
+                        Led a cross-company platform initiative to define and align on standards for the features and
+                        components
+                        that
+                        make up various Meta messaging experiences. I partnered with Designers, Product Managers, and
+                        Engineers
+                        from
+                        over 20 teams to audit existing messaging experiences and align on a set of consistent standards
+                        that
+                        would
+                        define the future of messaging experiences for the company.
+                    </li>
+                    <li>
+                        I planned, executed, and participated as a panelist in a company-wide panel discussion on
+                        measuring
+                        impact
+                        for
+                        Design Systems teams. I planned out all communications for the event, agenda, and ran the
+                        live-streaming
+                        while
+                        speaking on behalf of the Messenger Design System for some of the methodologies we used for
+                        measuring
+                        the
+                        impact
+                        of the team and system.Design Program Manager for the Messenger Design System and broader
+                        messaging
+                        platform
+                        initiatives. Owned operational excellence and integration of our team with cross-functional
+                        partners and
+                        the
+                        larger product organization. Created, owned, and iterated on Design team processes for how we
+                        interact
+                        and
+                        work
+                        with cross-functional partners and how we support other Design teams at the company that rely on
+                        our
+                        design
+                        system. This included custom project tracking systems, scalable reporting mechanisms, building
+                        support
+                        processes, automating the support request flows, and roadmapping and prioritization process and
+                        framework
+                        for
+                        the cross-functional team. Led a cross-company platform initiative to define and align on
+                        standards for
+                        the
+                        features and components that make up various Meta messaging experiences. I partnered with
+                        Designers,
+                        Product
+                        Managers, and Engineers from over 20 teams to audit existing messaging experiences and align on
+                        a set of
+                        consistent standards that would define the future of messaging experiences for the company. I
+                        planned,
+                        executed,
+                        and participated as a panelist in a company-wide panel discussion on measuring impact for Design
+                        Systems
+                        teams.
+                        I planned out all communications for the event, agenda, and ran the live-streaming while
+                        speaking on
+                        behalf
+                        of
+                        the Messenger Design System for some of the methodologies we used for measuring the impact of
+                        the team
+                        and
+                        system.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="position">
+            <div class="position-info">
+                <h2 class="title header-text">UX Program Manager</h2>
+                <p class="company subheader-text">AWS</p>
+                <p class="dates subheader-text">May 2021 - April 2022</p>
+            </div>
+            <div class="summary">
+                <p>
+                    UX Program Manager for the Design team that owns User Research, UX, and VX Design for the AWS
+                    marketing
+                    website.
+                    In this role, I supported the team from an operational capacity as well as led larger Design-driven
+                    initiatives.
+                </p>
+                <ul>
+                    <li>
+                        Created process and mechanisms for work intake, work prioritization, resource
+                        tracking/forecasting,
+                        reporting,
+                        and other structure supporting the team operations.
+                    </li>
+                    <li>
+                        Led strategic planning and road mapping for large-scale brand refresh updates on the Marketing
+                        site for
+                        2022,
+                        partnering with leadership and cross-functional teams spanning the AWS organization to define
+                        program
+                        priorities, risks, and opportunities. Worked closely with Engineering teams to outline and
+                        explore our
+                        ability
+                        to scale Design work through templated approaches as opposed to manual updates for the entire
+                        marketing
+                        site.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="position">
+            <div class="position-info">
+                <h2 class="title header-text">UX Program Manager</h2>
+                <p class="company subheader-text">Amazon</p>
+                <p class="dates subheader-text">April 2020 - May 2021</p>
+            </div>
+            <div class="summary">
+
+                <p>
+                    Program Manager for the UX team within Amazon’s centralized, cross-channel marketing organization,
+                    supporting
+                    onsite CX for seasonal shopping events such as Black Friday and Cyber Monday, Brand-related product
+                    development,
+                    and design automation prototyping and tool development.
+                </p>
+                <ul>
+                    <li>
+                        Led the build, launch, strategy, and program development of the Brand Portal, a CMS-driven site
+                        containing
+                        brand
+                        guidelines and assets for Amazon brands. Drove adoption for the site among brand teams and users
+                        from 1
+                        published brand and 8,926 monthly page views in January ’18 to 14 brands and 125,312 monthly
+                        page views
+                        in
+                        January ’21. Implemented a sprint process for the team, building and maintaining a product
+                        backlog based
+                        on
+                        user
+                        feedback (content owners and site visitors). Led an initiative to develop functionality for
+                        exporting
+                        versions
+                        of the site for external audiences, working closely with InfoSec, AppSec, Legal, and Trademarks
+                        teams
+                        for
+                        appropriate review and approval processes. Led initiatives to develop, standardize, and
+                        streamline
+                        partner
+                        support and onboarding as well as onsite content structure. Curated and maintained a monthly
+                        newsletter
+                        to
+                        an
+                        interest email alias of 600+ Amazonians on new content and product functionality.
+                    </li>
+                    <li>
+                        Developed UX team processes and structure for reporting, project tracking, and team management.
+                        Own
+                        weekly,
+                        monthly, and quarterly reporting, working closely with the UX Design Manager on identifying and
+                        writing
+                        narratives for key initiative status and updates. Built scalable project tracking mechanisms,
+                        collecting
+                        weekly
+                        project updates and statuses as well as run weekly team syncs to review individual priorities,
+                        focuses,
+                        and
+                        project blockers.
+                    </li>
+
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="position">
+            <div class="position-info">
+                <h2 class="title header-text">Creative Project Manager</h2>
+                <p class="company subheader-text">Amazon</p>
+                <p class="dates subheader-text">January 2015 - April 2020</p>
+            </div>
+            <div class="summary">
+                <p>
+                    Owned graphic creation, landing page build, photography, and implementation of a print design
+                    automation
+                    script
+                    for the Amazon Books physical store launch. Owned video and day-of-opening photography for the
+                    Amazon
+                    Fresh
+                    Pickup locations.
+                </p>
+                <ul>
+                    <li>
+                        Created a scalable framework that allowed for creation of web design, photo (average of 30-40
+                        shots
+                        per
+                        shoot),
+                        and video (average of 5-10 social videos per shoot) assets supporting the launch of Amazon
+                        private
+                        label
+                        food
+                        brands including Mama Bear, Happy Belly, Presto!, and Wickedly Prime.
+                    </li>
+                    <li>
+                        Managed global design teams (18 designers in Chennai, IN and 3 designers in Seattle, US) in the
+                        creation
+                        of
+                        13,000 high-touch graphics over an 11-month period for the Prime Video team. Developed the
+                        framework
+                        for
+                        execution of this project including workflow across global teams, an extensive quality assurance
+                        process,
+                        and
+                        implementation of various designer training sessions aimed at improving project and
+                        interest-related
+                        skillsets.
+                        Successfully transitioned over 90% of the workload to designers in Chennai, IN allowing for cost
+                        savings
+                        of
+                        over
+                        $500,000.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="goals-main">
+        <div class="main body-text">
+            <section id="climbing">
+                <h2 class="header-text">Climbing</h2>
+                <p class="subheader-text">Goal: 5.13a and 5.13b</p>
+                <div id="climbing-goals">
+                    <div id="climbing-goal-1">
+                        <img class="yes-no-icon" src="
+                {% if climbing_results.climbed_7c == True %}
+                /static/mysite/yes.png
+                {% else %}
+                /static/mysite/no.png
+                {% endif %}
+                ">
+                        <h4>5.13a</h4>
+                    </div>
+                    <div id="climbing-goal-2">
+                        <img class="yes-no-icon" src="
+                {% if climbing_results.climbed_8a == True %}
+                /static/mysite/yes.png
+                {% else %}
+                /static/mysite/no.png
+                {% endif %}
+                ">
+                        <h4>5.13b</h4>
+                    </div>
+                </div>
+                <div id="climbing-data-table" class="d-flex justify-content-left">
+                    <table class="table">
+                        <thead class="thead-white">
+                            <tr>
+                                <th scope="col">Route</th>
+                                <th scope="col">Grade</th>
+                                <th scope="col">Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ascent in climbing_results.climbing_ascents_list %}
+                            <tr>
+                                <td>{{ ascent.route }}</th>
+                                <td>{{ ascent.grade }}</th>
+                                <td>{{ ascent.location }}</th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- running section -->
+
+            <section id="running">
+                <h2 class="header-text">Running</h2>
+                <p class="subheader-text">Goal: 365 miles</p>
+
+                <div id="running-progress" class="progress">
+                    <div class="progress-bar {{ running_results.running_status }}" role="progressbar"
+                        style="width: {{ running_results.running_progress_percentage|floatformat:2 }}%"
+                        aria-valuenow="{{ running_results.running_progress_percentage|floatformat:2 }}"
+                        aria-valuemin="0" aria-valuemax="100">{{ running_results.running_current_miles|floatformat:2 }}
+                        miles
+                    </div>
+                </div>
+
+                <div id="running-data">
+                    <div id="run-count">
+                        <h4>Total runs</h4>
+                        <p>{{ running_results.running_current_runs }}</p>
+                    </div>
+                    <div id="average-distance">
+                        <h4>Avg. distance</h4>
+                        <p>{{ running_results.running_current_avg_distance|floatformat:2 }} miles</p>
+                    </div>
+                    <div id="average-pace">
+                        <h4>Avg. pace</h4>
+                        <p>{{ running_results.running_current_avg_pace }} min/mi</p>
+                    </div>
+                    <div id="calory-count">
+                        <h4>Calories burned</h4>
+                        <p>{{ running_results.running_current_total_calories|floatformat:"0g" }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- reading section -->
+
+            <section id="reading">
+                <h2 class="header-text">Reading</h2>
+                <p class="subheader-text">Goal: 24 books</p>
+                <div id="reading-progress" class="progress">
+                    <div class="progress-bar {{ reading_results.reading_status }}" role="progressbar"
+                        style="width: {{ reading_results.reading_progress_percentage }}%"
+                        aria-valuenow="{{ reading_results.reading_progress_percentage }}" aria-valuemin="0"
+                        aria-valuemax="100">
+                        {{
+                        reading_results.reading_current_books }} books</div>
+                </div>
+
+                <div id="reading-data-table" class="d-flex justify-content-left">
+                    <table class="table">
+                        <thead class="thead-white">
+                            <tr>
+                                <th scope="col">Book</th>
+                                <th scope="col">Author</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for book in reading_results.reading_books_list %}
+                            <tr>
+                                <td>{{ book.title }}</td>
+                                <td>{{ book.author }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'mysite/index.js' %}"></script>
+{% endblock %}
