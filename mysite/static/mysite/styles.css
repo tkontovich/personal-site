@@ -168,7 +168,7 @@ button, a {
     margin-left: -35px;
 }
 
-#see-more ul li a {
+.index-links ul li a {
     color: black;
     text-decoration: underline;
 }

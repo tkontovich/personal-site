@@ -21,249 +21,26 @@ Trent Kontovich: Resume
 
 <div class="main body-text" id="resume-main">
 
+    {% for job in jobs %}
+    {% load markdown_deux_tags %}
     <div class="position">
         <div class="position-info">
-            <h2 class="title header-text">Staff Design Operations Program Manager</h2>
-            <p class="company subheader-text">RentSpree</p>
-            <p class="dates subheader-text">June 2023 - Present</p>
+            <h2 class="title header-text">{{ job.title }}</h2>
+            <p class="company subheader-text">{{ job.company }}</p>
+            <p class="dates subheader-text">{{ job.dates }}</p>
         </div>
         <div class="summary">
             <p>
-                Owned operations for RentSpree’s Design & Research org.
+                {{ job.description|markdown }}
             </p>
-            <ul>
-                <li>
-                    Defined and built out JIRA for the Design, Research, and Marketing orgs. Partnered with cross-
-                    functional teams to integrate JIRA workflows between teams, allowing the organization to reduce
-                    the
-                    number of tools being used while creating efficiency for functional teams to work together.
-                </li>
-                <li>
-                    Drove organization, tracking, reporting, and partner collaboration for a company-wide initiative
-                    to redesign the RentSpree site. Partnered with Engineering and Product Management to break this
-                    large initiative into manageable pieces of work to achieve the larger end goal.
-                </li>
-            </ul>
+            
         </div>
     </div>
 
     <hr class="divider">
 
-    <div class="position">
-        <div class="position-info">
-            <h2 class="title header-text">Design Program Manager</h2>
-            <p class="company subheader-text">Meta</p>
-            <p class="dates subheader-text">May 2022 - June 2023</p>
-        </div>
-        <div class="summary">
-            <p>
-                Design Program Manager for the Messenger Design System and broader messaging platform initiatives.
-                Owned
-                operational excellence and integration of our team with cross-functional partners and the larger
-                product
-                organization.
-            </p>
-            <ul>
-                <li>
-                    Created, owned, and iterated on Design team processes for how we interact and work with
-                    cross-functional
-                    partners and how we support other Design teams at the company that rely on our design system.
-                    This
-                    included
-                    custom project tracking systems, scalable reporting mechanisms, building support processes,
-                    automating
-                    the
-                    support request flows, and roadmapping and prioritization process and framework for the
-                    cross-functional
-                    team.
-                </li>
-                <li>
-                    Led a cross-company platform initiative to define and align on standards for the features and
-                    components
-                    that
-                    make up various Meta messaging experiences. I partnered with Designers, Product Managers, and
-                    Engineers
-                    from
-                    over 20 teams to audit existing messaging experiences and align on a set of consistent standards
-                    that
-                    would
-                    define the future of messaging experiences for the company.
-                </li>
-                <li>
-                    I planned, executed, and participated as a panelist in a company-wide panel discussion on
-                    measuring
-                    impact
-                    for
-                    Design Systems teams. I planned out all communications for the event, agenda, and ran the
-                    live-streaming
-                    while
-                    speaking on behalf of the Messenger Design System for some of the methodologies we used for
-                    measuring
-                    the
-                    impact
-                    of the team and system.
-                </li>
-                
-            </ul>
-        </div>
-    </div>
+    {% endfor %}
 
-    <hr class="divider">
-
-    <div class="position">
-        <div class="position-info">
-            <h2 class="title header-text">UX Program Manager</h2>
-            <p class="company subheader-text">AWS</p>
-            <p class="dates subheader-text">May 2021 - April 2022</p>
-        </div>
-        <div class="summary">
-            <p>
-                UX Program Manager for the Design team that owns User Research, UX, and VX Design for the AWS
-                marketing
-                website.
-                In this role, I supported the team from an operational capacity as well as led larger Design-driven
-                initiatives.
-            </p>
-            <ul>
-                <li>
-                    Created process and mechanisms for work intake, work prioritization, resource
-                    tracking/forecasting,
-                    reporting,
-                    and other structure supporting the team operations.
-                </li>
-                <li>
-                    Led strategic planning and road mapping for large-scale brand refresh updates on the Marketing
-                    site for
-                    2022,
-                    partnering with leadership and cross-functional teams spanning the AWS organization to define
-                    program
-                    priorities, risks, and opportunities. Worked closely with Engineering teams to outline and
-                    explore our
-                    ability
-                    to scale Design work through templated approaches as opposed to manual updates for the entire
-                    marketing
-                    site.
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="position">
-        <div class="position-info">
-            <h2 class="title header-text">UX Program Manager</h2>
-            <p class="company subheader-text">Amazon</p>
-            <p class="dates subheader-text">April 2020 - May 2021</p>
-        </div>
-        <div class="summary">
-
-            <p>
-                Program Manager for the UX team within Amazon’s centralized, cross-channel marketing organization,
-                supporting
-                onsite CX for seasonal shopping events such as Black Friday and Cyber Monday, Brand-related product
-                development,
-                and design automation prototyping and tool development.
-            </p>
-            <ul>
-                <li>
-                    Led the build, launch, strategy, and program development of the Brand Portal, a CMS-driven site
-                    containing
-                    brand
-                    guidelines and assets for Amazon brands. Drove adoption for the site among brand teams and users
-                    from 1
-                    published brand and 8,926 monthly page views in January ’18 to 14 brands and 125,312 monthly
-                    page views
-                    in
-                    January ’21. Implemented a sprint process for the team, building and maintaining a product
-                    backlog based
-                    on
-                    user
-                    feedback (content owners and site visitors). Led an initiative to develop functionality for
-                    exporting
-                    versions
-                    of the site for external audiences, working closely with InfoSec, AppSec, Legal, and Trademarks
-                    teams
-                    for
-                    appropriate review and approval processes. Led initiatives to develop, standardize, and
-                    streamline
-                    partner
-                    support and onboarding as well as onsite content structure. Curated and maintained a monthly
-                    newsletter
-                    to
-                    an
-                    interest email alias of 600+ Amazonians on new content and product functionality.
-                </li>
-                <li>
-                    Developed UX team processes and structure for reporting, project tracking, and team management.
-                    Own
-                    weekly,
-                    monthly, and quarterly reporting, working closely with the UX Design Manager on identifying and
-                    writing
-                    narratives for key initiative status and updates. Built scalable project tracking mechanisms,
-                    collecting
-                    weekly
-                    project updates and statuses as well as run weekly team syncs to review individual priorities,
-                    focuses,
-                    and
-                    project blockers.
-                </li>
-
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="position">
-        <div class="position-info">
-            <h2 class="title header-text">Creative Project Manager</h2>
-            <p class="company subheader-text">Amazon</p>
-            <p class="dates subheader-text">January 2015 - April 2020</p>
-        </div>
-        <div class="summary">
-            <p>
-                Owned graphic creation, landing page build, photography, and implementation of a print design
-                automation
-                script
-                for the Amazon Books physical store launch. Owned video and day-of-opening photography for the
-                Amazon
-                Fresh
-                Pickup locations.
-            </p>
-            <ul>
-                <li>
-                    Created a scalable framework that allowed for creation of web design, photo (average of 30-40
-                    shots
-                    per
-                    shoot),
-                    and video (average of 5-10 social videos per shoot) assets supporting the launch of Amazon
-                    private
-                    label
-                    food
-                    brands including Mama Bear, Happy Belly, Presto!, and Wickedly Prime.
-                </li>
-                <li>
-                    Managed global design teams (18 designers in Chennai, IN and 3 designers in Seattle, US) in the
-                    creation
-                    of
-                    13,000 high-touch graphics over an 11-month period for the Prime Video team. Developed the
-                    framework
-                    for
-                    execution of this project including workflow across global teams, an extensive quality assurance
-                    process,
-                    and
-                    implementation of various designer training sessions aimed at improving project and
-                    interest-related
-                    skillsets.
-                    Successfully transitioned over 90% of the workload to designers in Chennai, IN allowing for cost
-                    savings
-                    of
-                    over
-                    $500,000.
-                </li>
-            </ul>
-        </div>
-    </div>
 </div>
 
 

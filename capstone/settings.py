@@ -37,6 +37,7 @@ CACHES = {
 # Application definition
 
 INSTALLED_APPS = [
+    'markdown_deux', 
     'mysite',
     'django.contrib.admin',
     'django.contrib.auth',

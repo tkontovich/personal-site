@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.mail import send_mail
 
+from .models import Job
+
 from datetime import datetime, date, timedelta
 
 from selenium.webdriver import Chrome
@@ -39,6 +41,7 @@ today = date.today()
 
 def index(request):
     return render(request, "mysite/index.html")
+    
 
 @csrf_exempt
 def contact(request):
@@ -71,7 +74,11 @@ def logout(request):
 
 
 def resume(request):
-    return render(request, "mysite/resume.html")
+    jobs = Job.objects.all()
+
+    return render(request, "mysite/resume.html", {
+        "jobs": jobs
+    })
 
 
 def goals2024(request):
