@@ -1,0 +1,47 @@
+{% extends 'mysite/layout.html' %}
+
+<!-- use this to change the title if needed -->
+{% block title %}
+Trent Kontovich: Resume
+{% endblock %}
+
+<!-- main page content -->
+{% block body %}
+
+<div class="header" id="resume-header">
+    <div class="header-content">
+        <div class="headline">
+            <h1 class="page-heading main-headline">Resume</h1>
+            <p class="body-text">
+                Interested in my work experience? Get the details below!
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="main body-text" id="resume-main">
+
+    {% for job in jobs %}
+    {% load markdown_deux_tags %}
+    <div class="position">
+        <div class="position-info">
+            <h2 class="title header-text">{{ job.title }}</h2>
+            <p class="company subheader-text">{{ job.company }}</p>
+            <p class="dates subheader-text">{{ job.dates }}</p>
+        </div>
+        <div class="summary">
+            <p>
+                {{ job.description|markdown }}
+            </p>
+            
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}

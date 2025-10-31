@@ -1,0 +1,217 @@
+/* TYPOGRAPHY */
+.main-headline {
+    font-family: "Abril Fatface", system-ui;
+    font-weight: 400;
+    font-size: 3em;
+    font-style: normal;
+    letter-spacing: .04em;
+  }
+
+.header-text {
+    font-family: "Bitter", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 1.8em;
+    letter-spacing: .025em;
+    line-height: 1.65em;
+    word-spacing: .05em;
+}
+
+.subheader-text {
+    font-family: "Bitter", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 1em;
+    letter-spacing: .025em;
+    line-height: 1em;
+    word-spacing: .05em;
+}
+
+.body-text {
+    font-family: "Bitter", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.1em;
+    letter-spacing: .025em;
+    line-height: 1.65em;
+    word-spacing: .05em;
+}
+
+.josefin-sans-400 {
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @media (max-width: 950px) {
+    .main-headline {
+        font-size: 2em;
+    }
+
+    .header-text {
+        font-size: 1.3em;
+    }
+
+    .subheader-text {
+        font-size: 1em;
+    }
+
+    .body-text {
+        font-size: 1em;
+    }
+}
+
+
+/* OVERALL SECTIONS, NAV, FOOTER */
+body {
+    margin: none;
+    position: relative;
+    padding-left: 75px;
+    padding-right: 75px;
+}
+
+#navbar {
+    height: 100px;
+}
+
+nav div ul {
+    padding: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.main {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+}
+
+.header-text {
+    margin-top: 50px;
+    margin-bottom: 5px;
+}
+
+footer {
+    height: 100px;
+    align-content: center;
+}
+
+/* 
+Only use for single page layout:
+
+button, a {
+    cursor: pointer;
+} 
+*/
+
+@media (max-width: 950px) {
+    .main {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
+
+
+/* HEADER SECTIONS */
+.header {
+    padding-top: 50px; 
+    padding-bottom: 50px;
+    background-color: #fafafa; 
+    width: 100vw;
+    margin-top: 100px;  
+    margin-left: -75px;
+}
+
+.header-content {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+}
+
+.headline {
+    margin-right: 50px;
+    min-width: 200px; 
+}
+
+#index-header .header-content {
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#resume-header .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+@media (max-width: 950px) {
+    .header-content {
+        margin-left: 75px;
+        margin-right: 75px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+    }
+}
+
+
+/* MAIN SECTIONS */
+/* Index */
+#see-more ul {
+    list-style-type: none;
+    margin-left: -35px;
+}
+
+.index-links ul li a {
+    color: black;
+    text-decoration: underline;
+}
+
+#contact-form div {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+#message {
+    width: 90%;
+    max-width: 400px;
+}
+
+#index-image {
+    margin: 20px;
+}
+
+/* Goals removed */
+
+/* Resume */
+.position {
+    margin-bottom: 75px;
+}
+
+.position-info {
+    margin-bottom: 50px;
+}
+
+@media (max-width: 950px) {
+    .position {
+        margin-bottom: 50px;
+        margin-left: -35px;
+        margin-right: -10px;
+    }
+
+    hr {
+      width: 120%;
+      margin-left: -45px;
+    }
+}
+
+.summary p {
+    margin-top: 0px;
+}
+

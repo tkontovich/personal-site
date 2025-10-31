@@ -1,0 +1,81 @@
+{% extends 'mysite/layout.html' %}
+
+<!-- use this to change the title if needed -->
+{% block title %}
+Trent Kontovich: Home
+{% endblock %}
+
+<!-- add page content here -->
+{% block body %}
+<div class="header" id="index-header">
+    <div class="header-content">
+        <div class="headline">
+            <h1 class="page-heading main-headline">Hi there, I'm Trent</h1>
+            <div>
+                <p class="body-text">
+                    Welcome to my site! You can use this to learn a bit more about me,
+                    check out my work history, or get in touch.
+                </p>
+            </div>
+        </div>
+            <div id="index-image">
+                <img src="static/mysite/me.png">
+            </div>
+
+    </div>
+</div>
+
+<div id="index-main" class="main body-text">
+    <div id="about-me">
+        <h2 class="header-text">About me</h2>
+        <p>
+            I'm a rock climber, husband, dog dad, Design Program Manager, and very occasional runner
+            living in Seattle, WA. I haven't always been here, though! I'm originally from Chattanooga, TN,
+            but moved out to the West coast in 2014.
+        </p>
+        <p>
+            Over the past 10+ years I've spent time at Amazon, Meta, and startups helping Design teams find better ways
+            of operating, both with themselves and with other teams. Also, I <em>love</em> building up technical skills
+            through doing little side projects, like this site you're on right now!
+        </p>
+    </div>
+
+    <div id="see-more">
+        <h2 class="header-text">Want to see more?</h2>
+        <ul>
+            <li><a href="https://www.linkedin.com/in/trent-kontovich/">LinkedIn</a></li>
+            <li><a href="https://github.com/tkontovich">GitHub</a></li>
+        </ul>
+    </div>
+    
+    <!-- 
+    <div id="contact">
+        <h2 class="header-text">Get in touch</h2>
+        <form id="contact-form" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="email">Your email</label><br>
+                <input type="email" name="email" id="email">
+            </div>
+            <div>
+                <label for="name">Your name</label><br>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="message">Message</label><br>
+                <textarea type="text" name="message" cols="40" id="message"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Send" class="btn btn-outline-primary">
+            </div>
+        </form>
+    </div>
+    -->
+    
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="/static/mysite/index.js"></script>
+{% endblock %}
