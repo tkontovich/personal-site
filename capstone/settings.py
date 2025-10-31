@@ -41,6 +41,7 @@ CACHES = {
 # Application definition
 
 INSTALLED_APPS = [
+    'adminsortable2',
     'markdown_deux', 
     'mysite',
     'django.contrib.admin',
