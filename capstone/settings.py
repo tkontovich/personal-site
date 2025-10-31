@@ -131,8 +131,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise: serve compressed static files
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# WhiteNoise: serve static files (use basic storage for now)
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# WhiteNoise configuration
+WHITENOISE_USE_FINDERS = False  # Don't use finders in production, serve from STATIC_ROOT
+WHITENOISE_AUTOREFRESH = False  # Don't auto-refresh in production
 
 # Security behind a proxy (Elastic Beanstalk/ALB)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
