@@ -53,12 +53,12 @@ body.dark-mode a {
     margin: 0;
 }
 
-/* Material UI-style Toggle Switch */
+/* Material UI-style Toggle Switch (33% smaller) */
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 58px;
-    height: 38px;
+    width: 39px;
+    height: 25px;
 }
 
 .toggle-switch input {
@@ -76,16 +76,16 @@ body.dark-mode a {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.38);
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 19px;
+    border-radius: 12.5px;
 }
 
 .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 9px;
-    bottom: 9px;
+    height: 13px;
+    width: 13px;
+    left: 6px;
+    bottom: 6px;
     background-color: #fafafa;
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
@@ -103,7 +103,7 @@ body.dark-mode .toggle-switch input:checked + .toggle-slider {
 }
 
 .toggle-switch input:checked + .toggle-slider:before {
-    transform: translateX(20px);
+    transform: translateX(13px);
     background-color: #1976d2;
 }
 

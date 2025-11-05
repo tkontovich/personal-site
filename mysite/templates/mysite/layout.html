@@ -104,12 +104,15 @@
             console.log('Initial theme:', currentTheme);
             console.log('Is dark:', isDark);
             
-            // Apply saved theme on page load
-            if (isDark) {
-                document.body.classList.add('dark-mode');
-                if (desktopCheckbox) desktopCheckbox.checked = true;
-                if (mobileCheckbox) mobileCheckbox.checked = true;
-                console.log('Applied dark mode on load');
+            // Define helper functions
+            function updateLabelText(isDark) {
+                const desktopLabel = document.querySelector('#dark-mode-toggle-desktop label[for="dark-mode-checkbox-desktop"]');
+                const mobileLabel = document.querySelector('#dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"]');
+                
+                const text = isDark ? 'Light Mode' : 'Dark Mode';
+                
+                if (desktopLabel) desktopLabel.textContent = text;
+                if (mobileLabel) mobileLabel.textContent = text;
             }
 
             function toggleDarkMode(isChecked) {
@@ -129,9 +132,23 @@
                 if (desktopCheckbox) desktopCheckbox.checked = isChecked;
                 if (mobileCheckbox) mobileCheckbox.checked = isChecked;
                 
+                // Update label text
+                updateLabelText(isChecked);
+                
                 console.log('Body classes after toggle:', document.body.className);
                 console.log('Body background color:', window.getComputedStyle(document.body).backgroundColor);
             }
+            
+            // Apply saved theme on page load
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                if (desktopCheckbox) desktopCheckbox.checked = true;
+                if (mobileCheckbox) mobileCheckbox.checked = true;
+                console.log('Applied dark mode on load');
+            }
+            
+            // Update label text on page load
+            updateLabelText(isDark);
 
             // Add event listeners to both checkboxes
             if (desktopCheckbox) {
