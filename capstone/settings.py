@@ -26,7 +26,19 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-only-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
 
+# Allow internal IPs for health checks (AWS private IP range)
 ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()] if not DEBUG else []
+# Add localhost and internal AWS IPs for health checks
+if not DEBUG:
+    import socket
+    # Get internal IP for health checks
+    try:
+        hostname = socket.gethostname()
+        internal_ip = socket.gethostbyname(hostname)
+        if internal_ip not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS.append(internal_ip)
+    except:
+        pass
 
 # CSRF trusted origins for production (comma-separated env)
 CSRF_TRUSTED_ORIGINS = [o for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o]
