@@ -124,40 +124,15 @@ body.dark-mode .toggle-slider:before {
     margin-left: auto;
 }
 
-/* Mobile toggle styling - match nav-link exactly */
+/* Mobile toggle styling */
 #dark-mode-toggle-mobile {
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
 }
 
-#dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"] {
-    /* Match body-text class */
-    font-family: "Bitter", system-ui;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 1.1em;
-    letter-spacing: .025em;
-    line-height: 1.65em;
-    word-spacing: .05em;
-    /* Match nav-link padding and display */
-    padding: 0;
-    margin: 0;
-    color: rgba(0, 0, 0, 0.5);
-}
-
-body.dark-mode #dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"] {
-    color: rgba(224, 224, 224, 0.5);
-}
-
-#dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"]:hover {
-    color: rgba(0, 0, 0, 0.7);
-}
-
-body.dark-mode #dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"]:hover {
-    color: rgba(224, 224, 224, 0.7);
+#dark-mode-toggle-mobile span {
+    flex: 1;
 }
 
 /* Fix navbar toggler icon centering and dark mode */

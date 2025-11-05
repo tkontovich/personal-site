@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Trent Kontovich{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'mysite/styles.css' %}?v=6">
+    <link rel="stylesheet" href="{% static 'mysite/styles.css' %}?v=7">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <!-- google font links -->
@@ -55,8 +55,8 @@
                     <a class="nav-link body-text" href="{% url 'resume' %}" id="resume">Resume</a>
                 </li>
                 <li class="nav-item d-md-none">
-                    <div class="dark-mode-toggle-container" id="dark-mode-toggle-mobile">
-                        <label for="dark-mode-checkbox-mobile">Dark Mode</label>
+                    <div class="nav-link dark-mode-toggle-container" id="dark-mode-toggle-mobile">
+                        <span class="body-text">Dark Mode</span>
                         <label class="toggle-switch">
                             <input type="checkbox" id="dark-mode-checkbox-mobile">
                             <span class="toggle-slider"></span>
@@ -107,7 +107,7 @@
             // Define helper functions
             function updateLabelText(isDark) {
                 const desktopLabel = document.querySelector('#dark-mode-toggle-desktop label[for="dark-mode-checkbox-desktop"]');
-                const mobileLabel = document.querySelector('#dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"]');
+                const mobileLabel = document.querySelector('#dark-mode-toggle-mobile span.body-text');
                 
                 const text = isDark ? 'Light Mode' : 'Dark Mode';
                 
