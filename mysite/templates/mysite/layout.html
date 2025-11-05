@@ -54,7 +54,15 @@
                 <li class="nav-item {% if request.path == '/resume/' %}active{% endif %}">
                     <a class="nav-link body-text" href="{% url 'resume' %}" id="resume">Resume</a>
                 </li>
+                <li class="nav-item d-md-none">
+                    <button class="dark-mode-toggle" id="dark-mode-toggle-mobile" onclick="toggleDarkMode()">
+                        <span id="mode-text-mobile">🌙 Dark</span>
+                    </button>
+                </li>
             </ul>
+            <button class="dark-mode-toggle d-none d-md-block ml-auto" id="dark-mode-toggle-desktop" onclick="toggleDarkMode()">
+                <span id="mode-text-desktop">🌙 Dark</span>
+            </button>
         </div>
     </nav>
 
@@ -68,6 +76,40 @@
             <p>&copy 2024 Trent Kontovich</p>
         </div>
     </footer>
+
+    <!-- Dark Mode Toggle Script -->
+    <script>
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            updateToggleText(true);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            // Save preference
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // Update button text
+            updateToggleText(isDark);
+        }
+
+        function updateToggleText(isDark) {
+            const desktopText = document.getElementById('mode-text-desktop');
+            const mobileText = document.getElementById('mode-text-mobile');
+            
+            if (isDark) {
+                if (desktopText) desktopText.textContent = '☀️ Light';
+                if (mobileText) mobileText.textContent = '☀️ Light';
+            } else {
+                if (desktopText) desktopText.textContent = '🌙 Dark';
+                if (mobileText) mobileText.textContent = '🌙 Dark';
+            }
+        }
+    </script>
 </body>
 
 </html>
