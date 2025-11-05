@@ -124,13 +124,16 @@ body.dark-mode .toggle-slider:before {
     margin-left: auto;
 }
 
-/* Mobile toggle styling */
+/* Mobile toggle styling - match nav-link exactly */
 #dark-mode-toggle-mobile {
-    margin-top: 0;
-    padding: 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 #dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"] {
+    /* Match body-text class */
     font-family: "Bitter", system-ui;
     font-optical-sizing: auto;
     font-weight: 400;
@@ -139,22 +142,38 @@ body.dark-mode .toggle-slider:before {
     letter-spacing: .025em;
     line-height: 1.65em;
     word-spacing: .05em;
-    color: #000000;
+    /* Match nav-link padding and display */
+    padding: 0;
+    margin: 0;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 body.dark-mode #dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"] {
-    color: #e0e0e0;
+    color: rgba(224, 224, 224, 0.5);
 }
 
-/* Fix navbar toggler icon in dark mode */
+#dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"]:hover {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode #dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"]:hover {
+    color: rgba(224, 224, 224, 0.7);
+}
+
+/* Fix navbar toggler icon centering and dark mode */
 .navbar-toggler {
-    padding: 0.5rem 0.5rem;
+    padding: 0.375rem 0.375rem !important;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .navbar-toggler-icon {
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.5em !important;
+    height: 1.5em !important;
+    display: inline-block;
+    vertical-align: middle;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
