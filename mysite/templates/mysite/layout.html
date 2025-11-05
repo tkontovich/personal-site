@@ -87,60 +87,77 @@
 
     <!-- Dark Mode Toggle Script -->
     <script>
-        // Get checkbox elements
-        const desktopCheckbox = document.getElementById('dark-mode-checkbox-desktop');
-        const mobileCheckbox = document.getElementById('dark-mode-checkbox-mobile');
-        
-        // Check for saved theme preference or default to light mode
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        const isDark = currentTheme === 'dark';
-        
-        console.log('Initial theme:', currentTheme);
-        
-        // Apply saved theme on page load
-        if (isDark) {
-            document.body.classList.add('dark-mode');
-            if (desktopCheckbox) desktopCheckbox.checked = true;
-            if (mobileCheckbox) mobileCheckbox.checked = true;
-            console.log('Applied dark mode on load');
-        }
-
-        function toggleDarkMode(isChecked) {
-            console.log('Toggle called, isChecked:', isChecked);
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded');
             
-            if (isChecked) {
+            // Get checkbox elements
+            const desktopCheckbox = document.getElementById('dark-mode-checkbox-desktop');
+            const mobileCheckbox = document.getElementById('dark-mode-checkbox-mobile');
+            
+            console.log('Desktop checkbox found:', !!desktopCheckbox);
+            console.log('Mobile checkbox found:', !!mobileCheckbox);
+            
+            // Check for saved theme preference or default to light mode
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            const isDark = currentTheme === 'dark';
+            
+            console.log('Initial theme:', currentTheme);
+            console.log('Is dark:', isDark);
+            
+            // Apply saved theme on page load
+            if (isDark) {
                 document.body.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark');
-                console.log('Switched to dark mode');
+                if (desktopCheckbox) desktopCheckbox.checked = true;
+                if (mobileCheckbox) mobileCheckbox.checked = true;
+                console.log('Applied dark mode on load');
+            }
+
+            function toggleDarkMode(isChecked) {
+                console.log('Toggle called, isChecked:', isChecked);
+                
+                if (isChecked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark');
+                    console.log('Switched to dark mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('theme', 'light');
+                    console.log('Switched to light mode');
+                }
+                
+                // Sync both checkboxes
+                if (desktopCheckbox) desktopCheckbox.checked = isChecked;
+                if (mobileCheckbox) mobileCheckbox.checked = isChecked;
+                
+                console.log('Body classes after toggle:', document.body.className);
+                console.log('Body background color:', window.getComputedStyle(document.body).backgroundColor);
+            }
+
+            // Add event listeners to both checkboxes
+            if (desktopCheckbox) {
+                desktopCheckbox.addEventListener('change', function(e) {
+                    console.log('Desktop checkbox changed, checked:', this.checked);
+                    console.log('Event target:', e.target);
+                    toggleDarkMode(this.checked);
+                });
+                console.log('Desktop listener attached');
             } else {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('theme', 'light');
-                console.log('Switched to light mode');
+                console.error('Desktop checkbox not found!');
             }
             
-            // Sync both checkboxes
-            if (desktopCheckbox) desktopCheckbox.checked = isChecked;
-            if (mobileCheckbox) mobileCheckbox.checked = isChecked;
+            if (mobileCheckbox) {
+                mobileCheckbox.addEventListener('change', function(e) {
+                    console.log('Mobile checkbox changed, checked:', this.checked);
+                    console.log('Event target:', e.target);
+                    toggleDarkMode(this.checked);
+                });
+                console.log('Mobile listener attached');
+            } else {
+                console.error('Mobile checkbox not found!');
+            }
             
-            console.log('Body classes:', document.body.className);
-        }
-
-        // Add event listeners to both checkboxes
-        if (desktopCheckbox) {
-            desktopCheckbox.addEventListener('change', function() {
-                console.log('Desktop checkbox changed');
-                toggleDarkMode(this.checked);
-            });
-        }
-        
-        if (mobileCheckbox) {
-            mobileCheckbox.addEventListener('change', function() {
-                console.log('Mobile checkbox changed');
-                toggleDarkMode(this.checked);
-            });
-        }
-        
-        console.log('Dark mode script loaded successfully');
+            console.log('Dark mode script initialized successfully');
+        });
     </script>
 </body>
 
