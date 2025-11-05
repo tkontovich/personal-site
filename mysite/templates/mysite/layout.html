@@ -95,39 +95,52 @@
         const currentTheme = localStorage.getItem('theme') || 'light';
         const isDark = currentTheme === 'dark';
         
+        console.log('Initial theme:', currentTheme);
+        
         // Apply saved theme on page load
         if (isDark) {
             document.body.classList.add('dark-mode');
             if (desktopCheckbox) desktopCheckbox.checked = true;
             if (mobileCheckbox) mobileCheckbox.checked = true;
+            console.log('Applied dark mode on load');
         }
 
         function toggleDarkMode(isChecked) {
+            console.log('Toggle called, isChecked:', isChecked);
+            
             if (isChecked) {
                 document.body.classList.add('dark-mode');
                 localStorage.setItem('theme', 'dark');
+                console.log('Switched to dark mode');
             } else {
                 document.body.classList.remove('dark-mode');
                 localStorage.setItem('theme', 'light');
+                console.log('Switched to light mode');
             }
             
             // Sync both checkboxes
             if (desktopCheckbox) desktopCheckbox.checked = isChecked;
             if (mobileCheckbox) mobileCheckbox.checked = isChecked;
+            
+            console.log('Body classes:', document.body.className);
         }
 
         // Add event listeners to both checkboxes
         if (desktopCheckbox) {
             desktopCheckbox.addEventListener('change', function() {
+                console.log('Desktop checkbox changed');
                 toggleDarkMode(this.checked);
             });
         }
         
         if (mobileCheckbox) {
             mobileCheckbox.addEventListener('change', function() {
+                console.log('Mobile checkbox changed');
                 toggleDarkMode(this.checked);
             });
         }
+        
+        console.log('Dark mode script loaded successfully');
     </script>
 </body>
 
