@@ -140,11 +140,17 @@ button, a {
     
     #navbar {
         height: auto;
-        padding: 10px 0;
+        padding: 10px 20px;
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+    
+    #navbar .navbar-brand {
+        padding-left: 0;
     }
     
     nav div ul {
-        padding: 10px;
+        padding: 10px 0;
         margin-left: 0;
         margin-right: 0;
     }
@@ -158,6 +164,12 @@ button, a {
     body {
         padding-left: 15px;
         padding-right: 15px;
+    }
+    
+    #navbar {
+        padding: 10px 15px;
+        margin-left: -15px;
+        margin-right: -15px;
     }
     
     .header-text {
