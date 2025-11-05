@@ -343,11 +343,6 @@ button, a {
         margin-left: 0 !important;
     }
     
-    #navbar .navbar-toggler {
-        padding-right: 0 !important;
-        margin-right: 0 !important;
-    }
-    
     #navbar .navbar-collapse {
         padding-left: 0 !important;
         padding-right: 0 !important;
