@@ -1,30 +1,40 @@
-/* DARK MODE VARIABLES */
-:root {
-    --bg-color: #ffffff;
-    --text-color: #000000;
-    --header-bg: #fafafa;
-    --link-color: #000000;
-    --border-color: #ddd;
-    --navbar-bg: #ffffff;
-}
-
-body.dark-mode {
-    --bg-color: #1a1a1a;
-    --text-color: #e0e0e0;
-    --header-bg: #0a0a0a;
-    --link-color: #e0e0e0;
-    --border-color: #444;
-    --navbar-bg: #1a1a1a;
-}
-
+/* DARK MODE STYLES */
 body {
-    background-color: var(--bg-color) !important;
-    color: var(--text-color) !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+body.dark-mode {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+/* Text colors */
 p, div, span, li, h1, h2, h3, h4, h5, h6 {
-    color: var(--text-color);
+    color: #000000;
+}
+
+body.dark-mode p, 
+body.dark-mode div, 
+body.dark-mode span, 
+body.dark-mode li, 
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6 {
+    color: #e0e0e0;
+}
+
+/* Links */
+a {
+    color: #000000;
+}
+
+body.dark-mode a {
+    color: #e0e0e0;
 }
 
 /* Dark mode toggle container */
@@ -136,8 +146,12 @@ body.dark-mode .navbar-toggler-icon {
     font-size: 3em;
     font-style: normal;
     letter-spacing: .04em;
-    color: var(--text-color);
+    color: #000000;
   }
+
+body.dark-mode .main-headline {
+    color: #e0e0e0;
+}
 
 .header-text {
     font-family: "Bitter", system-ui;
@@ -148,7 +162,11 @@ body.dark-mode .navbar-toggler-icon {
     letter-spacing: .025em;
     line-height: 1.65em;
     word-spacing: .05em;
-    color: var(--text-color);
+    color: #000000;
+}
+
+body.dark-mode .header-text {
+    color: #e0e0e0;
 }
 
 .subheader-text {
@@ -160,7 +178,11 @@ body.dark-mode .navbar-toggler-icon {
     letter-spacing: .025em;
     line-height: 1em;
     word-spacing: .05em;
-    color: var(--text-color);
+    color: #000000;
+}
+
+body.dark-mode .subheader-text {
+    color: #e0e0e0;
 }
 
 .body-text {
@@ -172,7 +194,11 @@ body.dark-mode .navbar-toggler-icon {
     letter-spacing: .025em;
     line-height: 1.65em;
     word-spacing: .05em;
-    color: var(--text-color);
+    color: #000000;
+}
+
+body.dark-mode .body-text {
+    color: #e0e0e0;
 }
 
 .josefin-sans-400 {
@@ -226,13 +252,22 @@ body {
 
 #navbar {
     height: 100px;
-    background-color: var(--navbar-bg) !important;
+    background-color: #ffffff !important;
     transition: background-color 0.3s ease;
+}
+
+body.dark-mode #navbar {
+    background-color: #1a1a1a !important;
 }
 
 #navbar .navbar-brand,
 #navbar .nav-link {
-    color: var(--text-color) !important;
+    color: #000000 !important;
+}
+
+body.dark-mode #navbar .navbar-brand,
+body.dark-mode #navbar .nav-link {
+    color: #e0e0e0 !important;
 }
 
 nav div ul {
@@ -260,7 +295,11 @@ footer {
 }
 
 footer p {
-    color: var(--text-color);
+    color: #000000;
+}
+
+body.dark-mode footer p {
+    color: #e0e0e0;
 }
 
 /* 
@@ -334,13 +373,17 @@ button, a {
 .header {
     padding-top: 50px; 
     padding-bottom: 50px;
-    background-color: var(--header-bg); 
+    background-color: #fafafa; 
     width: 100vw;
     margin-top: 100px;  
     margin-left: -75px;
     position: relative;
     left: 0;
     transition: background-color 0.3s ease;
+}
+
+body.dark-mode .header {
+    background-color: #0a0a0a;
 }
 
 .header-content {
@@ -416,16 +459,15 @@ button, a {
 }
 
 .index-links ul li a {
-    color: var(--link-color);
+    color: #000000;
     text-decoration: underline;
 }
 
-a {
-    color: var(--link-color);
+body.dark-mode .index-links ul li a {
+    color: #e0e0e0;
 }
 
 a:hover {
-    color: var(--link-color);
     opacity: 0.8;
 }
 
@@ -498,8 +540,12 @@ a:hover {
 
 hr.divider {
     border: 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid #ddd;
     margin: 0 0 50px 0;
+}
+
+body.dark-mode hr.divider {
+    border-top: 1px solid #444;
 }
 
 @media (max-width: 950px) {
