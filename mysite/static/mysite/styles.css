@@ -126,19 +126,40 @@ body.dark-mode .toggle-slider:before {
 
 /* Mobile toggle styling */
 #dark-mode-toggle-mobile {
-    margin-top: 10px;
-    padding: 10px 0;
+    margin-top: 0;
+    padding: 0;
 }
 
 #dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"] {
-    font-size: 1.1em;
     font-family: "Bitter", system-ui;
+    font-optical-sizing: auto;
     font-weight: 400;
+    font-style: normal;
+    font-size: 1.1em;
+    letter-spacing: .025em;
+    line-height: 1.65em;
+    word-spacing: .05em;
+    color: #000000;
+}
+
+body.dark-mode #dark-mode-toggle-mobile label[for="dark-mode-checkbox-mobile"] {
+    color: #e0e0e0;
 }
 
 /* Fix navbar toggler icon in dark mode */
+.navbar-toggler {
+    padding: 0.5rem 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .navbar-toggler-icon {
+    width: 1.5em;
+    height: 1.5em;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+body.dark-mode .navbar-toggler {
+    border-color: rgba(224, 224, 224, 0.2);
 }
 
 body.dark-mode .navbar-toggler-icon {
@@ -364,13 +385,6 @@ button, a {
         padding: 10px 0;
         margin-left: 0;
         margin-right: 0;
-    }
-    
-    /* Make dark mode label same size as nav links */
-    .dark-mode-toggle-container label[for^="dark-mode-checkbox"] {
-        font-size: 1.1em;
-        font-family: "Bitter", system-ui;
-        font-weight: 400;
     }
     
     .header-text {
