@@ -43,10 +43,14 @@ jobs:
             default_region: us-west-2
           EOF
       
-      - name: List EB environments to verify access
+      - name: Verify AWS access with AWS CLI
         run: |
-          echo "Listing environments..."
-          eb list --all || echo "Could not list environments"
+          pip install --user awscli
+          echo "$(python -m site --user-base)/bin" >> $GITHUB_PATH
+          echo "Testing AWS CLI access..."
+          aws elasticbeanstalk describe-environments --application-name personal-site-main --region us-west-2 || echo "AWS CLI failed - check IAM permissions"
+          echo "Listing applications..."
+          aws elasticbeanstalk describe-applications --region us-west-2 || echo "Could not list applications"
       
       - name: Deploy to Elastic Beanstalk
         run: |
