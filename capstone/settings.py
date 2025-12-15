@@ -43,13 +43,6 @@ if not DEBUG:
 # CSRF trusted origins for production (comma-separated env)
 CSRF_TRUSTED_ORIGINS = [o for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-        "LOCATION": "my_cache_table",
-    }
-}
-
 # Application definition
 
 INSTALLED_APPS = [
