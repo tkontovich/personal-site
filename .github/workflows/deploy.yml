@@ -47,10 +47,14 @@ jobs:
         run: |
           pip install --user awscli
           echo "$(python -m site --user-base)/bin" >> $GITHUB_PATH
+          echo "Testing AWS identity..."
+          aws sts get-caller-identity
           echo "Testing AWS CLI access..."
-          aws elasticbeanstalk describe-environments --application-name personal-site-main --region us-west-2 || echo "AWS CLI failed - check IAM permissions"
+          aws elasticbeanstalk describe-environments --application-name personal-site-main --region us-west-2 2>&1 || true
           echo "Listing applications..."
-          aws elasticbeanstalk describe-applications --region us-west-2 || echo "Could not list applications"
+          aws elasticbeanstalk describe-applications --region us-west-2 2>&1 || true
+          echo "Trying to describe specific environment..."
+          aws elasticbeanstalk describe-environment-health --environment-name personal-site-prod --attribute-names Status --region us-west-2 2>&1 || true
       
       - name: Deploy to Elastic Beanstalk
         run: |
