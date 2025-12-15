@@ -43,9 +43,14 @@ jobs:
             default_region: us-west-2
           EOF
       
+      - name: List EB environments to verify access
+        run: |
+          echo "Listing environments..."
+          eb list --all || echo "Could not list environments"
+      
       - name: Deploy to Elastic Beanstalk
         run: |
           echo "Starting deployment to personal-site-prod..."
-          eb deploy personal-site-prod --region us-west-2 --timeout 30
+          eb deploy personal-site-prod --timeout 30
           echo "Deployment completed"
 
