@@ -30,9 +30,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
       
+      - name: Check EB environment status
+        run: |
+          echo "Checking environment status..."
+          python -m ebcli.core.ebcore status personal-site-prod --application personal-site-main --region us-west-2 || echo "Status check failed"
+      
       - name: Deploy to Elastic Beanstalk
         run: |
           echo "Starting deployment to personal-site-prod..."
-          python -m ebcli.core.ebcore deploy personal-site-prod --application personal-site-main --region us-west-2 --timeout 30
-          echo "Deployment completed"
+          python -m ebcli.core.ebcore deploy personal-site-prod --application personal-site-main --region us-west-2 --timeout 30 || exit 1
+          echo "Deployment completed successfully"
 
