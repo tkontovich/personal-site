@@ -1,6 +1,8 @@
 # Description
 Welcome to my personal website project! This is a Django site that contains info about me, my resume, and a "2024 goals" section that allows me to keep track of my progress towards some of the goals I set for myself for the year.
 
+<!-- CI/CD test update -->
+
 
 # Distinctiveness and Complexity
 I believe my site's use of a **web scraper**, **garminconnect package (to connect to Garmin's API)**, and Django's **caching functionality** satisfy the distinctiveness and complexity requirements of this project. I knew I wanted to be able to track my three goal categories (running, reading, and climbing), and since I already track each of those via separate websites (8a.nu for climbing, goodreads for reading, garmin for running), I knew I wanted to pull that information in to this rather than have to duplicate entries anywhere.
