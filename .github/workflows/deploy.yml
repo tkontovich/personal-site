@@ -32,5 +32,5 @@ jobs:
       
       - name: Deploy to Elastic Beanstalk
         run: |
-          python -m ebcli.main deploy personal-site-prod --application personal-site-main --region us-west-2 --timeout 20
+          python -m ebcli.core.ebcore deploy personal-site-prod --application personal-site-main --region us-west-2 --timeout 20
 
