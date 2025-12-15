@@ -34,6 +34,6 @@ jobs:
       - name: Deploy to Elastic Beanstalk
         run: |
           echo "Starting deployment to personal-site-prod..."
-          eb deploy personal-site-prod --application personal-site-main --region us-west-2 --timeout 30
+          eb deploy personal-site-prod --region us-west-2 --timeout 30
           echo "Deployment completed"
 
