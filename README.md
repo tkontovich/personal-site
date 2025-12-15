@@ -14,7 +14,7 @@ Welcome to my personal website project! This is a Django site that contains info
 Below are a few of the files that I've added for this project specifically. This does not account for the standard files generated when creating a Django project.
 
 1. **requirements.txt**: this file tracks all packages and software versions for my project and can be used to set up another virtual environment to correctly run the app.
-2. **capstone/settings.py**: this is a standard Django settings file, with configuration for AWS Simple Email Service for the contact functionality.
+2. **config/settings.py**: this is a standard Django settings file, with configuration for AWS Simple Email Service for the contact functionality.
 3. **mysite folder**:
    1. **views.py**: contains the view functions for the site (index, login, logout, resume).
    2. **static folder**: contains visuals, javascript, and CSS files used across the site.
