@@ -31,6 +31,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
       
+      - name: Initialize EB CLI
+        run: |
+          mkdir -p .elasticbeanstalk
+          cat > .elasticbeanstalk/config.yml << 'EOF'
+          branch-defaults:
+            main:
+              environment: personal-site-prod
+          global:
+            application_name: personal-site-main
+            default_region: us-west-2
+          EOF
+      
       - name: Deploy to Elastic Beanstalk
         run: |
           echo "Starting deployment to personal-site-prod..."
