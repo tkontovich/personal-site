@@ -32,5 +32,7 @@ jobs:
       
       - name: Deploy to Elastic Beanstalk
         run: |
-          python -m ebcli.core.ebcore deploy personal-site-prod --application personal-site-main --region us-west-2 --timeout 30
+          echo "Starting deployment to personal-site-prod..."
+          python -m ebcli.core.ebcore deploy personal-site-prod --application personal-site-main --region us-west-2 --timeout 30 --verbose
+          echo "Deployment command completed with exit code: $?"
 
