@@ -1,7 +1,7 @@
 {
   "framework": null,
-  "installCommand": "python3 -m pip install -r requirements.txt",
-  "buildCommand": "python3 manage.py render_static",
+  "installCommand": "echo 'dependencies are installed by build.sh'",
+  "buildCommand": "bash build.sh",
   "outputDirectory": "out",
   "trailingSlash": true
 }
