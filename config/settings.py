@@ -47,8 +47,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
-
 # Resume content lives in resume.json, so the site has no database.
 DATABASES = {}
 

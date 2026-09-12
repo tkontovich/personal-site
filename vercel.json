@@ -1,4 +1,5 @@
 {
+  "framework": null,
   "installCommand": "python3 -m pip install -r requirements.txt",
   "buildCommand": "python3 manage.py render_static",
   "outputDirectory": "out",
