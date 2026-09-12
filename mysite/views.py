@@ -1,34 +1,19 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
-
-from .models import Job
-
 import json
+from pathlib import Path
+
+from django.conf import settings
+from django.shortcuts import render
 
 
-### Set up global variables 
-# from .models import modelsgohere
+RESUME_PATH = Path(settings.BASE_DIR) / "resume.json"
 
-
-# Create your views here.
 
 def index(request):
-    return render(request, "mysite/index.html")
-    
-
- 
-
-
-def login(request):
-    return render(request, "mysite/login.html")
-
-
-def logout(request):
     return render(request, "mysite/index.html")
 
 
 def resume(request):
-    jobs = Job.objects.all()
+    jobs = json.loads(RESUME_PATH.read_text(encoding="utf-8"))
 
     return render(request, "mysite/resume.html", {
         "jobs": jobs

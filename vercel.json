@@ -1,0 +1,6 @@
+{
+  "installCommand": "python3 -m pip install --user -r requirements.txt",
+  "buildCommand": "python3 manage.py render_static",
+  "outputDirectory": "out",
+  "trailingSlash": true
+}
