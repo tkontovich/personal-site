@@ -1,11 +1,7 @@
-import json
-from pathlib import Path
-
-from django.conf import settings
+from django.http import Http404
 from django.shortcuts import render
 
-
-RESUME_PATH = Path(settings.BASE_DIR) / "resume.json"
+from .content import load_projects, load_resume
 
 
 def index(request):
@@ -13,8 +9,21 @@ def index(request):
 
 
 def resume(request):
-    jobs = json.loads(RESUME_PATH.read_text(encoding="utf-8"))
-
     return render(request, "mysite/resume.html", {
-        "jobs": jobs
+        "jobs": load_resume()
     })
+
+
+def projects(request):
+    return render(request, "mysite/projects.html", {
+        "projects": load_projects()
+    })
+
+
+def project(request, slug):
+    for candidate in load_projects():
+        if candidate.slug == slug:
+            return render(request, "mysite/project.html", {
+                "project": candidate
+            })
+    raise Http404(f"No project named {slug}")

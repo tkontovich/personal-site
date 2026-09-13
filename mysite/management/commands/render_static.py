@@ -9,10 +9,14 @@ from django.core.management.base import BaseCommand, CommandError
 from django.test import RequestFactory
 from django.urls import resolve
 
-# Every page on the site, mapped to its file in the build output.
-PAGES = {
+from mysite.content import PROJECTS_DIR, load_projects
+
+# Pages that always exist, mapped to their file in the build output.
+# Each project adds its own page on top of these.
+STATIC_PAGES = {
     "/": "index.html",
     "/resume/": "resume/index.html",
+    "/projects/": "projects/index.html",
 }
 
 
@@ -30,8 +34,13 @@ class Command(BaseCommand):
         call_command("collectstatic", interactive=False, clear=True, verbosity=0)
         shutil.copytree(settings.STATIC_ROOT, out / "static")
 
+        projects = load_projects()
+        pages = dict(STATIC_PAGES)
+        for project in projects:
+            pages[f"/projects/{project.slug}/"] = f"projects/{project.slug}/index.html"
+
         factory = RequestFactory()
-        for url, target in PAGES.items():
+        for url, target in pages.items():
             match = resolve(url)
             response = match.func(factory.get(url), *match.args, **match.kwargs)
             if hasattr(response, "render"):
@@ -45,3 +54,13 @@ class Command(BaseCommand):
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(response.content)
             self.stdout.write(f"{url} -> {target}")
+
+        # Copy each published project's images next to its page, so relative
+        # image paths in a writeup resolve the same way they do locally.
+        for project in projects:
+            shutil.copytree(
+                PROJECTS_DIR / project.slug,
+                out / "projects" / project.slug,
+                ignore=shutil.ignore_patterns("*.md"),
+                dirs_exist_ok=True,
+            )

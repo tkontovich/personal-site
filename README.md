@@ -16,20 +16,55 @@ Resume entries live in `resume.json` at the top level. Each entry has a `title`,
 `company`, `dates`, and a `description` written in Markdown. Edit the file, commit,
 and push — Vercel rebuilds on every push to `main`.
 
-Order in the file is the order on the page.
+Order in the file is the order on the page. `summary` is always visible; `details`
+sits behind a "Show details" toggle. Leave `details` empty for a role with no toggle.
+
+# Adding a project
+Each project is a folder in `content/projects/`. The folder name becomes the URL
+(`content/projects/rested/` is served at `/projects/rested/`).
+
+Inside the folder, `index.md` holds the writeup, with settings at the top:
+
+```
+---
+title: Rested
+summary: One sentence, shown on the card and under the title.
+date: 2026
+tags: iOS, HealthKit
+cover: cover.jpg
+website: https://...
+app_store: https://...
+github: https://...
+order: 2
+draft: true
+---
+
+The writeup, in Markdown.
+```
+
+Only `title` and `summary` are required. Put images in the same folder and reference
+them by filename (`![Wiring](wiring.jpg)`). `cover` is used for the card and the page
+header, and the build fails if the file isn't there. Lower `order` comes first, and
+the first project gets the large featured card.
+
+`draft: true` hides a project from the live site but shows it locally and on Vercel
+preview deployments, so you can review it on a branch before publishing.
 
 # What's Included
 1. **resume.json**: resume content, the source of truth for the `/resume/` page.
-2. **requirements.txt**: the three packages needed to render the site.
-3. **config/settings.py**: Django settings, trimmed to what a static render needs.
-4. **mysite folder**:
+2. **content/projects/**: one folder per project page, with its writeup and images.
+3. **requirements.txt**: the three packages needed to render the site.
+4. **config/settings.py**: Django settings, trimmed to what a static render needs.
+5. **mysite folder**:
    1. **views.py**: view functions for the site (index, resume).
    2. **static folder**: visuals and CSS used across the site.
    3. **templates folder**: HTML templates for each page.
-   4. **management/commands/render_static.py**: the static site renderer.
+   4. **content.py**: loads the resume and project content.
+   5. **management/commands/render_static.py**: the static site renderer.
 
 # Deployment
 Hosted on Vercel. Pushes to `main` trigger a build that runs `render_static` and
 publishes `out/`. Build settings live in `vercel.json`.
 
-To add a page, add its URL to `PAGES` in `render_static.py` so the renderer picks it up.
+To add a new kind of page, add its URL to `STATIC_PAGES` in `render_static.py`.
+Project pages are picked up automatically.
