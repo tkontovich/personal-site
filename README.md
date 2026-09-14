@@ -20,9 +20,6 @@ Each role has:
 - `title`, `company`
 - `short_title`: a shorter title for the chart label (optional; defaults to `title`)
 - `start`, `end`: months as `"YYYY-MM"`. Use `null` for `end` on your current role.
-- `figure`, `figure_note`: the headline result in Highlights, like `"408%"` with
-  `"growth in monthly visitors..."`, shown with the role's title, company, and
-  dates. A figure with letters in it ("Site redesign") is set smaller than a number.
 - `summary`, `details`: the role's full write-up, shown when the role is selected
   in the chart. Long write-ups fade out with "See more", and expanded ones end
   with "Collapse". Leave `details` empty for none.
@@ -30,6 +27,11 @@ Each role has:
 The chart's timeline, bar sizes, and tenure are all worked out from the dates.
 
 # Adding a project
+The projects section is built but not published yet: `PUBLISH_PROJECTS` in
+`render_static.py` is off and the Projects link is out of the nav. Pages still
+work locally under `runserver`. To publish, turn the flag on and restore the link
+in `layout.html`.
+
 Each project is a folder in `content/projects/`. The folder name becomes the URL
 (`content/projects/rested/` is served at `/projects/rested/`).
 

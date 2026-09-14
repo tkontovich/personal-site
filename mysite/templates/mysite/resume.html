@@ -80,32 +80,12 @@ Trent Kontovich: Resume
         </div>
     </section>
 
-    <section class="resume-section resume-section--highlights" aria-labelledby="highlights-heading">
-        <div class="section-head">
-            <h2 class="header-text" id="highlights-heading">Highlights</h2>
-            <p class="section-intro">The standout result from every role.</p>
-        </div>
-
-        <ol class="impact-list">
-            {% for job in resume.jobs %}
-            <li class="impact-item">
-                <span class="impact-value{% if job.figure_is_phrase %} impact-value--phrase{% endif %}">{{ job.figure }}</span>
-                <div class="impact-copy">
-                    <p class="impact-note">{{ job.figure_note }}</p>
-                    <p class="impact-role">
-                        <span class="impact-role-title">{{ job.title }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
-                    </p>
-                </div>
-            </li>
-            {% endfor %}
-        </ol>
-    </section>
 
 </div>
 
 <script>
     (function () {
-        // A role's write-up in the chart panel is "clamped" (clipped with a fade and See more), "expanded"
+        // A role's write-up is "clamped" (clipped with a fade and See more), "expanded"
         // (full, with Collapse), or "fits" (short enough to need neither).
         // Nothing is clipped until this script runs, so the text is never lost.
         const blocks = Array.from(document.querySelectorAll('.expandable'));

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Trent Kontovich{% endblock %}</title>
     <link rel="icon" type="image/png" sizes="48x48" href="{% static 'mysite/favicon-48x48.png' %}">
-    <link rel="stylesheet" href="{% static 'mysite/styles.css' %}?v=21">
+    <link rel="stylesheet" href="{% static 'mysite/styles.css' %}?v=22">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <!-- google font links -->
@@ -54,9 +54,6 @@
                 <li class="nav-item {% if request.path == '/' %}active{% endif %}">
                     <a class="nav-link body-text" href="{% url 'index' %}" id="index">Home <span
                             class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item {% if request.path|slice:':10' == '/projects/' %}active{% endif %}">
-                    <a class="nav-link body-text" href="{% url 'projects' %}" id="projects">Projects</a>
                 </li>
                 <li class="nav-item {% if request.path == '/resume/' %}active{% endif %}">
                     <a class="nav-link body-text" href="{% url 'resume' %}" id="resume">Resume</a>

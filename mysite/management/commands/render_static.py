@@ -12,12 +12,15 @@ from django.urls import resolve
 from mysite.content import PROJECTS_DIR, load_projects
 
 # Pages that always exist, mapped to their file in the build output.
-# Each project adds its own page on top of these.
 STATIC_PAGES = {
     "/": "index.html",
     "/resume/": "resume/index.html",
-    "/projects/": "projects/index.html",
 }
+
+# The projects section is held back for now, so nothing under /projects/ is
+# built. To publish it, set this to True and restore the Projects link in
+# layout.html.
+PUBLISH_PROJECTS = False
 
 
 class Command(BaseCommand):
@@ -34,8 +37,10 @@ class Command(BaseCommand):
         call_command("collectstatic", interactive=False, clear=True, verbosity=0)
         shutil.copytree(settings.STATIC_ROOT, out / "static")
 
-        projects = load_projects()
+        projects = load_projects() if PUBLISH_PROJECTS else []
         pages = dict(STATIC_PAGES)
+        if PUBLISH_PROJECTS:
+            pages["/projects/"] = "projects/index.html"
         for project in projects:
             pages[f"/projects/{project.slug}/"] = f"projects/{project.slug}/index.html"
 

@@ -476,6 +476,10 @@ body.dark-mode .header {
 
 /* MAIN SECTIONS */
 /* Index */
+#index-main p {
+    max-width: 70ch;
+}
+
 #see-more ul {
     list-style-type: none;
     margin-left: -35px;
@@ -596,17 +600,6 @@ a:hover {
     }
 }
 
-/* A heavy rule and extra space keep Highlights visibly separate from the chart. */
-.resume-section + .resume-section {
-    margin-top: 90px;
-    padding-top: 40px;
-    border-top: 2px solid #000000;
-}
-
-body.dark-mode .resume-section + .resume-section {
-    border-top-color: #e0e0e0;
-}
-
 .section-head {
     margin-bottom: 24px;
 }
@@ -621,15 +614,13 @@ body.dark-mode .resume-section + .resume-section {
 
 .section-intro,
 .span-role,
-.role-tenure-unit,
-.impact-role span:not(.impact-role-title) {
+.role-tenure-unit {
     color: #555555;
 }
 
 body.dark-mode .section-intro,
 body.dark-mode .span-role,
-body.dark-mode .role-tenure-unit,
-body.dark-mode .impact-role span:not(.impact-role-title) {
+body.dark-mode .role-tenure-unit {
     color: #a8a8a8;
 }
 
@@ -817,72 +808,6 @@ body.dark-mode .role-panel {
     text-transform: uppercase;
 }
 
-/* Highlights */
-.impact-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.impact-item {
-    display: grid;
-    grid-template-columns: 200px minmax(0, 1fr);
-    align-items: baseline;
-    gap: 8px 32px;
-    padding: 24px 0;
-    border-top: 1px solid #dddddd;
-}
-
-.impact-item:first-child {
-    padding-top: 8px;
-    border-top: 0;
-}
-
-body.dark-mode .impact-item {
-    border-top-color: #444444;
-}
-
-.impact-value {
-    font-family: "Abril Fatface", system-ui;
-    font-size: 3em;
-    line-height: 1;
-    letter-spacing: 0.01em;
-    font-variant-numeric: tabular-nums;
-}
-
-.impact-value--phrase {
-    font-size: 1.6em;
-    line-height: 1.15;
-}
-
-.impact-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-width: 62ch;
-}
-
-.impact-note {
-    margin: 0;
-    font-size: 1.1em;
-    line-height: 1.5;
-}
-
-.impact-role {
-    margin: 0;
-    font-size: 0.9em;
-    line-height: 1.5;
-}
-
-.impact-role-title {
-    font-weight: 600;
-}
-
-.impact-role .separator {
-    margin: 0 0.45em;
-    opacity: 0.5;
-}
-
 .expandable {
     position: relative;
     max-width: 72ch;
@@ -992,10 +917,6 @@ body.dark-mode .expandable-toggle {
 }
 
 @media (max-width: 950px) {
-    .resume-section + .resume-section {
-        margin-top: 60px;
-    }
-
     .career-panel {
         padding: 20px 18px 4px;
     }
@@ -1028,15 +949,6 @@ body.dark-mode .expandable-toggle {
 
     .role-tenure-value {
         font-size: 2em;
-    }
-
-    .impact-item {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-
-    .impact-value {
-        font-size: 2.4em;
     }
 }
 

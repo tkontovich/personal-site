@@ -83,8 +83,6 @@ def load_resume(today=None):
         job["months"] = _month_number(job["end_month"]) - _month_number(start)
         job["tenure_value"], job["tenure_unit"] = format_tenure(job["months"])
         job["short_title"] = job.get("short_title") or job["title"]
-        # Numbers like "408%" get the large display size; phrases get a smaller one.
-        job["figure_is_phrase"] = any(char.isalpha() for char in job.get("figure", ""))
 
     first_year = min(job["start_month"][0] for job in jobs)
     last_year = max(job["end_month"][0] for job in jobs) + 1
