@@ -83,7 +83,6 @@ def load_resume(today=None):
         job["months"] = _month_number(job["end_month"]) - _month_number(start)
         job["tenure_value"], job["tenure_unit"] = format_tenure(job["months"])
         job["short_title"] = job.get("short_title") or job["title"]
-        job["tags"] = job.get("tags") or []
         # Numbers like "408%" get the large display size; phrases get a smaller one.
         job["figure_is_phrase"] = any(char.isalpha() for char in job.get("figure", ""))
 
@@ -96,11 +95,6 @@ def load_resume(today=None):
         offset = _month_number(job["start_month"]) - domain_start
         job["left"] = _percent(offset / domain_months * 100)
         job["width"] = _percent(job["months"] / domain_months * 100)
-        if job["months"] >= 24:
-            ends = "now" if job["is_current"] else job["end_month"][0]
-            job["bar_label"] = f"{job['start_month'][0]}\u2013{ends}"
-        else:
-            job["bar_label"] = ""
 
     selected = next((job for job in jobs if job["is_current"]), jobs[0])
     for job in jobs:

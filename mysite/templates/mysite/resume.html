@@ -9,7 +9,7 @@ Trent Kontovich: Resume
 <!-- main page content -->
 {% block body %}
 
-<div class="header" id="resume-header">
+<div class="header header--wide" id="resume-header">
     <div class="header-content">
         <div class="headline">
             <h1 class="page-heading main-headline">Resume</h1>
@@ -20,14 +20,12 @@ Trent Kontovich: Resume
     </div>
 </div>
 
-<div class="main body-text" id="resume-main">
+<div class="main main-wide body-text" id="resume-main">
 
     <section class="resume-section" aria-labelledby="glance-heading">
         <div class="section-head">
-            <div>
-                <h2 class="header-text" id="glance-heading">Career at a glance</h2>
-                <p class="section-intro">Select a role to see what it involved.</p>
-            </div>
+            <h2 class="header-text" id="glance-heading">Career at a glance</h2>
+            <p class="section-intro">Select a role to see what it involved.</p>
         </div>
 
         <div class="career-panel">
@@ -46,9 +44,7 @@ Trent Kontovich: Resume
                                 {% if job.is_current %}data-current-start="{{ job.start }}"{% endif %}
                                 aria-controls="panel-{{ job.key }}"
                                 aria-pressed="{% if job.is_selected %}true{% else %}false{% endif %}"
-                                aria-label="{{ job.title }}, {{ job.company }}, {{ job.dates }}">
-                            {% if job.bar_label %}<span>{{ job.bar_label }}</span>{% endif %}
-                        </button>
+                                aria-label="{{ job.title }}, {{ job.company }}, {{ job.dates }}"></button>
                     </div>
                 </div>
                 {% endfor %}
@@ -71,11 +67,6 @@ Trent Kontovich: Resume
                         <div class="role-summary">
                             {{ job.summary|markdown }}
                         </div>
-                        {% if job.tags %}
-                        <ul class="tag-list role-tags" aria-label="Areas of focus">
-                            {% for tag in job.tags %}<li class="tag tag--accent">{{ tag }}</li>{% endfor %}
-                        </ul>
-                        {% endif %}
                     </div>
                     <div class="role-tenure"{% if job.is_current %} data-current-start="{{ job.start }}"{% endif %}>
                         <span class="role-tenure-value">{{ job.tenure_value }}</span>
@@ -89,11 +80,8 @@ Trent Kontovich: Resume
 
     <section class="resume-section resume-section--highlights" aria-labelledby="highlights-heading">
         <div class="section-head">
-            <div>
-                <h2 class="header-text" id="highlights-heading">Highlights</h2>
-                <p class="section-intro">The standout result from every role.</p>
-            </div>
-            <button type="button" class="text-button" id="toggle-all-details" hidden>Expand all</button>
+            <h2 class="header-text" id="highlights-heading">Highlights</h2>
+            <p class="section-intro">The standout result from every role.</p>
         </div>
 
         <ol class="impact-list">
@@ -108,20 +96,13 @@ Trent Kontovich: Resume
                     <p class="position-meta subheader-text">
                         <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
                     </p>
-                    <div class="summary">
-                        {{ job.summary|markdown }}
-                    </div>
-                    {% if job.details %}
-                    <details class="position-details">
-                        <summary>
-                            <span class="label-closed">Show details</span>
-                            <span class="label-open">Hide details</span>
-                        </summary>
-                        <div class="details-body">
-                            {{ job.details|markdown }}
+                    <div class="expandable">
+                        <div class="expandable-content" id="impact-{{ job.key }}">
+                            {{ job.summary|markdown }}
+                            {% if job.details %}{{ job.details|markdown }}{% endif %}
                         </div>
-                    </details>
-                    {% endif %}
+                        <button type="button" class="expandable-toggle" aria-controls="impact-{{ job.key }}" aria-expanded="false" hidden>See more</button>
+                    </div>
                 </div>
             </li>
             {% endfor %}
@@ -169,21 +150,41 @@ Trent Kontovich: Resume
             });
         }
 
-        const button = document.getElementById('toggle-all-details');
-        const details = Array.from(document.querySelectorAll('.impact-list .position-details'));
-        if (button && details.length) {
-            const sync = () => { button.textContent = details.every(d => d.open) ? 'Collapse all' : 'Expand all'; };
-            button.hidden = false;
-            button.addEventListener('click', function () {
-                const open = !details.every(d => d.open);
-                details.forEach(d => { d.open = open; });
-                sync();
-            });
-            details.forEach(d => d.addEventListener('toggle', sync));
+        // "See more": long highlights are clipped with a fade until expanded. Without
+        // JavaScript nothing is clipped, so the full text is always reachable.
+        const blocks = Array.from(document.querySelectorAll('.expandable'));
 
-            // Printed or saved-as-PDF copies should include everything.
-            window.addEventListener('beforeprint', () => details.forEach(d => { d.open = true; }));
+        function expand(block) {
+            const content = block.querySelector('.expandable-content');
+            const button = block.querySelector('.expandable-toggle');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            block.classList.remove('is-clamped');
+            button.setAttribute('aria-expanded', 'true');
+            button.hidden = true;
+            // Release the height once the animation is done, so resizing never clips text.
+            setTimeout(() => { content.style.maxHeight = 'none'; }, 400);
         }
+
+        function measure() {
+            blocks.forEach(function (block) {
+                if (block.querySelector('.expandable-toggle').getAttribute('aria-expanded') === 'true') return;
+                const content = block.querySelector('.expandable-content');
+                block.classList.add('is-clamped');
+                const overflows = content.scrollHeight > content.clientHeight + 4;
+                block.classList.toggle('is-clamped', overflows);
+                block.querySelector('.expandable-toggle').hidden = !overflows;
+            });
+        }
+
+        blocks.forEach(function (block) {
+            block.querySelector('.expandable-toggle').addEventListener('click', () => expand(block));
+        });
+        measure();
+        // Web fonts change line heights, so check again once they've loaded.
+        if (document.fonts) document.fonts.ready.then(measure);
+
+        // Printed or saved-as-PDF copies should include everything.
+        window.addEventListener('beforeprint', () => blocks.forEach(expand));
     })();
 </script>
 

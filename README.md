@@ -23,9 +23,9 @@ Each role has:
 - `figure`, `figure_note`: the headline result in Highlights, like `"408%"` with
   `"growth in monthly visitors..."`. A figure with letters in it ("Site redesign")
   is set smaller than a number.
-- `tags`: the areas of focus shown when the role is selected in the chart
-- `summary`: always visible
-- `details`: behind the "Show details" toggle in Highlights. Leave empty for none.
+- `summary`: shown in the chart panel when the role is selected, and in Highlights
+- `details`: follows the summary in Highlights. Long entries fade out with a
+  "See more" button that expands them. Leave empty for none.
 
 The chart's timeline, bar sizes, and tenure are all worked out from the dates.
 

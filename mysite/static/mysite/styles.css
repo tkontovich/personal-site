@@ -560,6 +560,42 @@ a:hover {
     margin-top: 50px;
 }
 
+/* Wide layout: the header band's text and the page content share one 1000px
+   column. The header spans the body instead of 100vw, so a scrollbar can't
+   shift it out of line with the content below. */
+.header.header--wide {
+    width: calc(100% + 150px);
+}
+
+.header--wide .header-content {
+    max-width: 1150px;
+    padding-left: 95px;
+    padding-right: 95px;
+}
+
+@media (max-width: 950px) {
+    .header.header--wide {
+        width: calc(100% + 40px);
+    }
+
+    .header--wide .header-content {
+        max-width: none;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header.header--wide {
+        width: calc(100% + 30px);
+    }
+
+    .header--wide .header-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
 /* A heavy rule and extra space keep Highlights visibly separate from the chart. */
 .resume-section + .resume-section {
     margin-top: 90px;
@@ -572,11 +608,6 @@ body.dark-mode .resume-section + .resume-section {
 }
 
 .section-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 12px 24px;
     margin-bottom: 24px;
 }
 
@@ -600,26 +631,6 @@ body.dark-mode .span-role,
 body.dark-mode .role-tenure-unit,
 body.dark-mode .impact-note {
     color: #a8a8a8;
-}
-
-.text-button {
-    background: none;
-    border: 1px solid #cccccc;
-    border-radius: 999px;
-    padding: 4px 14px;
-    font-family: "Bitter", system-ui;
-    font-size: 0.9em;
-    color: #000000;
-    cursor: pointer;
-}
-
-body.dark-mode .text-button {
-    border-color: #555555;
-    color: #e0e0e0;
-}
-
-.text-button:hover {
-    opacity: 0.8;
 }
 
 .position-meta {
@@ -701,13 +712,10 @@ body.dark-mode .span-track::before {
     top: 3px;
     bottom: 3px;
     min-width: 6px;
-    padding: 0 8px;
-    overflow: hidden;
+    padding: 0;
     border: 0;
     border-radius: 4px;
     background-color: #d6d6d6;
-    text-align: left;
-    white-space: nowrap;
     cursor: pointer;
     transition: background-color 0.15s ease;
 }
@@ -730,16 +738,6 @@ body.dark-mode .span-track::before {
     outline-offset: 2px;
 }
 
-.span-bar span {
-    font-size: 0.72em;
-    letter-spacing: 0.03em;
-    color: #444444;
-}
-
-.span-bar[aria-pressed="true"] span {
-    color: #ffffff;
-}
-
 body.dark-mode .span-bar {
     background-color: #3d3d3d;
 }
@@ -750,14 +748,6 @@ body.dark-mode .span-bar:hover {
 
 body.dark-mode .span-bar[aria-pressed="true"] {
     background-color: #e0e0e0;
-}
-
-body.dark-mode .span-bar span {
-    color: #c8c8c8;
-}
-
-body.dark-mode .span-bar[aria-pressed="true"] span {
-    color: #1a1a1a;
 }
 
 .span-ticks {
@@ -800,9 +790,8 @@ body.dark-mode .role-panel {
     margin: 12px 0 0;
 }
 
-/* Scoped to the panel so it outranks the shared .tag-list margin reset. */
-.role-panel .role-tags {
-    margin-top: 16px;
+.role-summary {
+    max-width: 68ch;
 }
 
 .role-tenure {
@@ -873,59 +862,94 @@ body.dark-mode .impact-item {
     line-height: 1.45;
 }
 
-.impact-copy .summary p {
+.expandable {
+    position: relative;
+    max-width: 72ch;
+}
+
+.expandable-content {
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+/* About five lines, plus the first paragraph's top margin. */
+.expandable.is-clamped .expandable-content {
+    max-height: calc(5 * 1.65em + 10px);
+}
+
+.expandable-content p {
     margin: 10px 0 0.6em;
 }
 
-.position-details summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-    list-style: none;
-    cursor: pointer;
-    font-family: "Bitter", system-ui;
-    font-weight: 600;
-    font-size: 0.95em;
-    user-select: none;
-}
-
-.position-details summary::-webkit-details-marker {
-    display: none;
-}
-
-.position-details summary::before {
-    content: "";
-    width: 0.45em;
-    height: 0.45em;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(-45deg);
-    transition: transform 0.2s ease;
-}
-
-.position-details[open] summary::before {
-    transform: rotate(45deg);
-}
-
-.position-details .label-open,
-.position-details[open] .label-closed {
-    display: none;
-}
-
-.position-details[open] .label-open {
-    display: inline;
-}
-
-.details-body {
-    margin-top: 12px;
-}
-
-.details-body ul {
+.expandable-content ul {
+    margin-bottom: 0;
     padding-left: 1.2em;
 }
 
-.details-body li {
+.expandable-content li {
     margin-bottom: 0.6em;
+}
+
+.expandable.is-clamped::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4.5em;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff 70%);
+    pointer-events: none;
+}
+
+body.dark-mode .expandable.is-clamped::after {
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0), #1a1a1a 70%);
+}
+
+.expandable-toggle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: "Bitter", system-ui;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #000000;
+    cursor: pointer;
+}
+
+.expandable-toggle::after {
+    content: "";
+    width: 0.45em;
+    height: 0.45em;
+    margin-top: -0.25em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+}
+
+body.dark-mode .expandable-toggle {
+    color: #e0e0e0;
+}
+
+.expandable-toggle:hover {
+    opacity: 0.75;
+}
+
+.expandable-toggle:focus-visible {
+    outline: 2px solid #1976d2;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .expandable-content {
+        transition: none;
+    }
 }
 
 @media (max-width: 950px) {
@@ -1136,17 +1160,6 @@ body.dark-mode .tag {
 body.dark-mode .tag {
     background-color: #333333;
     color: #cccccc;
-}
-
-/* Tinted tags, used for the areas of focus on each resume role. */
-.tag--accent {
-    background-color: #e4eefa;
-    color: #1459a8;
-}
-
-body.dark-mode .tag--accent {
-    background-color: #1c2a38;
-    color: #90caf9;
 }
 
 .projects-empty {
