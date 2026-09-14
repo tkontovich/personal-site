@@ -779,14 +779,6 @@ body.dark-mode .span-ticks {
     color: #777777;
 }
 
-.span-ticks span:first-child {
-    transform: none;
-}
-
-.span-ticks span:last-child {
-    transform: translateX(-100%);
-}
-
 body.dark-mode .span-ticks span {
     color: #8a8a8a;
 }
@@ -808,7 +800,8 @@ body.dark-mode .role-panel {
     margin: 12px 0 0;
 }
 
-.role-tags {
+/* Scoped to the panel so it outranks the shared .tag-list margin reset. */
+.role-panel .role-tags {
     margin-top: 16px;
 }
 
@@ -945,6 +938,13 @@ body.dark-mode .impact-item {
     }
 }
 
+/* Below this width a label for every year crowds the axis, so label every other year. */
+@media (max-width: 1100px) {
+    .span-ticks span:nth-child(even) {
+        display: none;
+    }
+}
+
 @media (max-width: 600px) {
     .span-row,
     .span-axis {
@@ -961,10 +961,6 @@ body.dark-mode .impact-item {
         flex-wrap: wrap;
         gap: 0 0.4em;
         text-align: left;
-    }
-
-    .span-ticks span:nth-child(even) {
-        display: none;
     }
 
     .role-panel {
