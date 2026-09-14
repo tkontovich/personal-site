@@ -622,14 +622,14 @@ body.dark-mode .resume-section + .resume-section {
 .section-intro,
 .span-role,
 .role-tenure-unit,
-.impact-note {
+.impact-role span:not(.impact-role-title) {
     color: #555555;
 }
 
 body.dark-mode .section-intro,
 body.dark-mode .span-role,
 body.dark-mode .role-tenure-unit,
-body.dark-mode .impact-note {
+body.dark-mode .impact-role span:not(.impact-role-title) {
     color: #a8a8a8;
 }
 
@@ -774,31 +774,32 @@ body.dark-mode .span-ticks span {
 }
 
 .role-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px 32px;
     margin-top: 20px;
     padding: 24px 0;
     border-top: 1px solid #e6e6e6;
+}
+
+/* Title and dates on the left, time in the role on the right, at every width. */
+.role-panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px 32px;
 }
 
 body.dark-mode .role-panel {
     border-top-color: #333333;
 }
 
-.role-summary p {
-    margin: 12px 0 0;
-}
-
-/* Leave room below an entry for the fixed nav when Collapse scrolls back to it. */
-.role-panel,
-.impact-item {
+/* Leave room below the fixed nav when Collapse scrolls back to the panel. */
+.role-panel {
     scroll-margin-top: 110px;
 }
 
 .role-tenure {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     align-items: flex-end;
     text-align: right;
 }
@@ -826,8 +827,9 @@ body.dark-mode .role-panel {
 .impact-item {
     display: grid;
     grid-template-columns: 200px minmax(0, 1fr);
-    gap: 32px;
-    padding: 28px 0;
+    align-items: baseline;
+    gap: 8px 32px;
+    padding: 24px 0;
     border-top: 1px solid #dddddd;
 }
 
@@ -838,12 +840,6 @@ body.dark-mode .role-panel {
 
 body.dark-mode .impact-item {
     border-top-color: #444444;
-}
-
-.impact-figure {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
 }
 
 .impact-value {
@@ -859,9 +855,32 @@ body.dark-mode .impact-item {
     line-height: 1.15;
 }
 
+.impact-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 62ch;
+}
+
 .impact-note {
-    font-size: 0.85em;
-    line-height: 1.45;
+    margin: 0;
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+.impact-role {
+    margin: 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.impact-role-title {
+    font-weight: 600;
+}
+
+.impact-role .separator {
+    margin: 0 0.45em;
+    opacity: 0.5;
 }
 
 .expandable {
@@ -1007,24 +1026,13 @@ body.dark-mode .expandable-toggle {
         text-align: left;
     }
 
-    .role-panel {
-        grid-template-columns: 1fr;
-    }
-
-    .role-tenure {
-        flex-direction: row;
-        align-items: baseline;
-        gap: 0.5em;
-        text-align: left;
-    }
-
     .role-tenure-value {
         font-size: 2em;
     }
 
     .impact-item {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 8px;
     }
 
     .impact-value {

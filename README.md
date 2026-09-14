@@ -21,11 +21,11 @@ Each role has:
 - `short_title`: a shorter title for the chart label (optional; defaults to `title`)
 - `start`, `end`: months as `"YYYY-MM"`. Use `null` for `end` on your current role.
 - `figure`, `figure_note`: the headline result in Highlights, like `"408%"` with
-  `"growth in monthly visitors..."`. A figure with letters in it ("Site redesign")
-  is set smaller than a number.
+  `"growth in monthly visitors..."`, shown with the role's title, company, and
+  dates. A figure with letters in it ("Site redesign") is set smaller than a number.
 - `summary`, `details`: the role's full write-up, shown when the role is selected
-  in the chart and again in Highlights. Long write-ups fade out with "See more",
-  and expanded ones end with "Collapse". Leave `details` empty for none.
+  in the chart. Long write-ups fade out with "See more", and expanded ones end
+  with "Collapse". Leave `details` empty for none.
 
 The chart's timeline, bar sizes, and tenure are all worked out from the dates.
 

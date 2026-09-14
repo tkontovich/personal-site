@@ -59,19 +59,21 @@ Trent Kontovich: Resume
             <div class="role-panels" aria-live="polite">
                 {% for job in resume.jobs %}
                 <div class="role-panel" id="panel-{{ job.key }}" data-role="{{ job.key }}"{% if not job.is_selected %} hidden{% endif %}>
-                    <div class="role-panel-main">
-                        <h3 class="role-title">{{ job.title }}</h3>
-                        <p class="position-meta subheader-text">
-                            <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
-                        </p>
-                        {% with content_id="panel-content-"|add:job.key %}
-                        {% include "mysite/_expandable.html" %}
-                        {% endwith %}
+                    <div class="role-panel-head">
+                        <div>
+                            <h3 class="role-title">{{ job.title }}</h3>
+                            <p class="position-meta subheader-text">
+                                <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
+                            </p>
+                        </div>
+                        <div class="role-tenure"{% if job.is_current %} data-current-start="{{ job.start }}"{% endif %}>
+                            <span class="role-tenure-value">{{ job.tenure_value }}</span>
+                            <span class="role-tenure-unit">{{ job.tenure_unit }}</span>
+                        </div>
                     </div>
-                    <div class="role-tenure"{% if job.is_current %} data-current-start="{{ job.start }}"{% endif %}>
-                        <span class="role-tenure-value">{{ job.tenure_value }}</span>
-                        <span class="role-tenure-unit">{{ job.tenure_unit }}</span>
-                    </div>
+                    {% with content_id="panel-content-"|add:job.key %}
+                    {% include "mysite/_expandable.html" %}
+                    {% endwith %}
                 </div>
                 {% endfor %}
             </div>
@@ -87,18 +89,12 @@ Trent Kontovich: Resume
         <ol class="impact-list">
             {% for job in resume.jobs %}
             <li class="impact-item">
-                <div class="impact-figure">
-                    <span class="impact-value{% if job.figure_is_phrase %} impact-value--phrase{% endif %}">{{ job.figure }}</span>
-                    <span class="impact-note">{{ job.figure_note }}</span>
-                </div>
+                <span class="impact-value{% if job.figure_is_phrase %} impact-value--phrase{% endif %}">{{ job.figure }}</span>
                 <div class="impact-copy">
-                    <h3 class="role-title">{{ job.title }}</h3>
-                    <p class="position-meta subheader-text">
-                        <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
+                    <p class="impact-note">{{ job.figure_note }}</p>
+                    <p class="impact-role">
+                        <span class="impact-role-title">{{ job.title }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
                     </p>
-                    {% with content_id="impact-"|add:job.key %}
-                    {% include "mysite/_expandable.html" %}
-                    {% endwith %}
                 </div>
             </li>
             {% endfor %}
@@ -109,7 +105,7 @@ Trent Kontovich: Resume
 
 <script>
     (function () {
-        // A write-up is "clamped" (clipped with a fade and See more), "expanded"
+        // A role's write-up in the chart panel is "clamped" (clipped with a fade and See more), "expanded"
         // (full, with Collapse), or "fits" (short enough to need neither).
         // Nothing is clipped until this script runs, so the text is never lost.
         const blocks = Array.from(document.querySelectorAll('.expandable'));
@@ -153,7 +149,7 @@ Trent Kontovich: Resume
 
             // Collapsing a long entry from its bottom can leave its start above the
             // fixed nav, so bring the entry back into view.
-            const entry = block.closest('.impact-item, .role-panel');
+            const entry = block.closest('.role-panel');
             if (entry.getBoundingClientRect().top < 110) {
                 entry.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
             }
