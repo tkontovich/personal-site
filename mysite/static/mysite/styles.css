@@ -790,8 +790,10 @@ body.dark-mode .role-panel {
     margin: 12px 0 0;
 }
 
-.role-summary {
-    max-width: 68ch;
+/* Leave room below an entry for the fixed nav when Collapse scrolls back to it. */
+.role-panel,
+.impact-item {
+    scroll-margin-top: 110px;
 }
 
 .role-tenure {
@@ -905,11 +907,12 @@ body.dark-mode .expandable.is-clamped::after {
     background: linear-gradient(to bottom, rgba(26, 26, 26, 0), #1a1a1a 70%);
 }
 
+/* The chart card has its own background in dark mode, so its fade has to match. */
+body.dark-mode .career-panel .expandable.is-clamped::after {
+    background: linear-gradient(to bottom, rgba(34, 34, 34, 0), #222222 70%);
+}
+
 .expandable-toggle {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
     display: inline-flex;
     align-items: center;
     gap: 0.5em;
@@ -931,6 +934,23 @@ body.dark-mode .expandable.is-clamped::after {
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
     transform: rotate(45deg);
+}
+
+/* "See more" sits on the fade; "Collapse" follows the full text. */
+.expandable-more {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.expandable-less {
+    margin-top: 4px;
+}
+
+.expandable-less::after {
+    margin-top: 0.3em;
+    transform: rotate(-135deg);
 }
 
 body.dark-mode .expandable-toggle {

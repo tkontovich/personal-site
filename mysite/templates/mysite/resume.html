@@ -64,9 +64,9 @@ Trent Kontovich: Resume
                         <p class="position-meta subheader-text">
                             <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
                         </p>
-                        <div class="role-summary">
-                            {{ job.summary|markdown }}
-                        </div>
+                        {% with content_id="panel-content-"|add:job.key %}
+                        {% include "mysite/_expandable.html" %}
+                        {% endwith %}
                     </div>
                     <div class="role-tenure"{% if job.is_current %} data-current-start="{{ job.start }}"{% endif %}>
                         <span class="role-tenure-value">{{ job.tenure_value }}</span>
@@ -96,13 +96,9 @@ Trent Kontovich: Resume
                     <p class="position-meta subheader-text">
                         <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
                     </p>
-                    <div class="expandable">
-                        <div class="expandable-content" id="impact-{{ job.key }}">
-                            {{ job.summary|markdown }}
-                            {% if job.details %}{{ job.details|markdown }}{% endif %}
-                        </div>
-                        <button type="button" class="expandable-toggle" aria-controls="impact-{{ job.key }}" aria-expanded="false" hidden>See more</button>
-                    </div>
+                    {% with content_id="impact-"|add:job.key %}
+                    {% include "mysite/_expandable.html" %}
+                    {% endwith %}
                 </div>
             </li>
             {% endfor %}
@@ -113,6 +109,56 @@ Trent Kontovich: Resume
 
 <script>
     (function () {
+        // A write-up is "clamped" (clipped with a fade and See more), "expanded"
+        // (full, with Collapse), or "fits" (short enough to need neither).
+        // Nothing is clipped until this script runs, so the text is never lost.
+        const blocks = Array.from(document.querySelectorAll('.expandable'));
+        const ANIMATION_MS = 400;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function setState(block, state) {
+            block.dataset.state = state;
+            block.classList.toggle('is-clamped', state === 'clamped');
+            block.querySelector('.expandable-more').hidden = state !== 'clamped';
+            block.querySelector('.expandable-less').hidden = state !== 'expanded';
+        }
+
+        function measure(block) {
+            // Hidden role panels have no size yet; they're measured when selected.
+            if (block.dataset.state === 'expanded' || block.offsetParent === null) return;
+            const content = block.querySelector('.expandable-content');
+            content.style.maxHeight = '';
+            block.classList.add('is-clamped');
+            setState(block, content.scrollHeight > content.clientHeight + 4 ? 'clamped' : 'fits');
+        }
+
+        function expand(block, moveFocus) {
+            const content = block.querySelector('.expandable-content');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            setState(block, 'expanded');
+            if (moveFocus) block.querySelector('.expandable-less').focus({ preventScroll: true });
+            // Release the height once the animation ends, so resizing never clips text.
+            setTimeout(function () {
+                if (block.dataset.state === 'expanded') content.style.maxHeight = 'none';
+            }, ANIMATION_MS);
+        }
+
+        function collapse(block) {
+            const content = block.querySelector('.expandable-content');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            void content.offsetHeight; // start the animation from the full height
+            content.style.maxHeight = '';
+            setState(block, 'clamped');
+            block.querySelector('.expandable-more').focus({ preventScroll: true });
+
+            // Collapsing a long entry from its bottom can leave its start above the
+            // fixed nav, so bring the entry back into view.
+            const entry = block.closest('.impact-item, .role-panel');
+            if (entry.getBoundingClientRect().top < 110) {
+                entry.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+            }
+        }
+
         const chart = document.getElementById('career-chart');
         if (chart) {
             const bars = Array.from(chart.querySelectorAll('.span-bar'));
@@ -121,7 +167,15 @@ Trent Kontovich: Resume
             bars.forEach(function (bar) {
                 bar.addEventListener('click', function () {
                     bars.forEach(b => b.setAttribute('aria-pressed', String(b === bar)));
-                    panels.forEach(p => { p.hidden = p.dataset.role !== bar.dataset.role; });
+                    panels.forEach(function (panel) {
+                        panel.hidden = panel.dataset.role !== bar.dataset.role;
+                        // Every role opens clipped, however it was left.
+                        const block = panel.querySelector('.expandable');
+                        if (!panel.hidden && block) {
+                            delete block.dataset.state;
+                            measure(block);
+                        }
+                    });
                 });
             });
 
@@ -150,41 +204,24 @@ Trent Kontovich: Resume
             });
         }
 
-        // "See more": long highlights are clipped with a fade until expanded. Without
-        // JavaScript nothing is clipped, so the full text is always reachable.
-        const blocks = Array.from(document.querySelectorAll('.expandable'));
-
-        function expand(block) {
-            const content = block.querySelector('.expandable-content');
-            const button = block.querySelector('.expandable-toggle');
-            content.style.maxHeight = content.scrollHeight + 'px';
-            block.classList.remove('is-clamped');
-            button.setAttribute('aria-expanded', 'true');
-            button.hidden = true;
-            // Release the height once the animation is done, so resizing never clips text.
-            setTimeout(() => { content.style.maxHeight = 'none'; }, 400);
-        }
-
-        function measure() {
-            blocks.forEach(function (block) {
-                if (block.querySelector('.expandable-toggle').getAttribute('aria-expanded') === 'true') return;
-                const content = block.querySelector('.expandable-content');
-                block.classList.add('is-clamped');
-                const overflows = content.scrollHeight > content.clientHeight + 4;
-                block.classList.toggle('is-clamped', overflows);
-                block.querySelector('.expandable-toggle').hidden = !overflows;
-            });
-        }
+        // Printed or saved-as-PDF copies should include everything.
+        window.addEventListener('beforeprint', () => blocks.forEach(function (block) {
+            if (block.dataset.state === 'clamped') expand(block, false);
+        }));
 
         blocks.forEach(function (block) {
-            block.querySelector('.expandable-toggle').addEventListener('click', () => expand(block));
+            block.querySelector('.expandable-more').addEventListener('click', () => expand(block, true));
+            block.querySelector('.expandable-less').addEventListener('click', () => collapse(block));
         });
-        measure();
-        // Web fonts change line heights, so check again once they've loaded.
-        if (document.fonts) document.fonts.ready.then(measure);
+        blocks.forEach(measure);
 
-        // Printed or saved-as-PDF copies should include everything.
-        window.addEventListener('beforeprint', () => blocks.forEach(expand));
+        // Web fonts and window width both change where text wraps, so measure again.
+        if (document.fonts) document.fonts.ready.then(() => blocks.forEach(measure));
+        let resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => blocks.forEach(measure), 150);
+        });
     })();
 </script>
 
