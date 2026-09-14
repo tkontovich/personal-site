@@ -10,7 +10,7 @@ def index(request):
 
 def resume(request):
     return render(request, "mysite/resume.html", {
-        "jobs": load_resume()
+        "resume": load_resume()
     })
 
 

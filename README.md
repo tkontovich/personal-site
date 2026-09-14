@@ -12,12 +12,22 @@ no application server, no database, and nothing running between deploys.
 4. Use `python3 manage.py render_static` to produce the deployable `out/` directory
 
 # Editing the resume
-Resume entries live in `resume.json` at the top level. Each entry has a `title`,
-`company`, `dates`, and a `description` written in Markdown. Edit the file, commit,
-and push — Vercel rebuilds on every push to `main`.
+Resume entries live in `resume.json` at the top level, newest first. Edit the file,
+commit, and push. Vercel rebuilds on every push to `main`.
 
-Order in the file is the order on the page. `summary` is always visible; `details`
-sits behind a "Show details" toggle. Leave `details` empty for a role with no toggle.
+Each role has:
+
+- `title`, `company`
+- `short_title`: a shorter title for the chart label (optional; defaults to `title`)
+- `start`, `end`: months as `"YYYY-MM"`. Use `null` for `end` on your current role.
+- `figure`, `figure_note`: the headline result in Highlights, like `"408%"` with
+  `"growth in monthly visitors..."`. A figure with letters in it ("Site redesign")
+  is set smaller than a number.
+- `tags`: the areas of focus shown when the role is selected in the chart
+- `summary`: always visible
+- `details`: behind the "Show details" toggle in Highlights. Leave empty for none.
+
+The chart's timeline, bar sizes, and tenure are all worked out from the dates.
 
 # Adding a project
 Each project is a folder in `content/projects/`. The folder name becomes the URL

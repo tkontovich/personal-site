@@ -22,59 +22,168 @@ Trent Kontovich: Resume
 
 <div class="main body-text" id="resume-main">
 
-    <div class="resume-toolbar">
-        <button type="button" class="text-button" id="toggle-all-details" hidden>Expand all</button>
-    </div>
-
-    {% for job in jobs %}
-    <article class="position">
-        <div class="position-info">
-            <h2 class="title header-text">{{ job.title }}</h2>
-            <p class="position-meta subheader-text">
-                <span class="company">{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span class="dates">{{ job.dates }}</span>
-            </p>
-        </div>
-        <div class="summary">
-            {{ job.summary|markdown }}
-        </div>
-        {% if job.details %}
-        <details class="position-details">
-            <summary>
-                <span class="label-closed">Show details</span>
-                <span class="label-open">Hide details</span>
-            </summary>
-            <div class="details-body">
-                {{ job.details|markdown }}
+    <section class="resume-section" aria-labelledby="glance-heading">
+        <div class="section-head">
+            <div>
+                <h2 class="header-text" id="glance-heading">Career at a glance</h2>
+                <p class="section-intro">Select a role to see what it involved.</p>
             </div>
-        </details>
-        {% endif %}
-    </article>
-    {% endfor %}
+        </div>
+
+        <div class="career-panel">
+            <div class="career-chart" id="career-chart" data-domain-start="{{ resume.domain_start }}" data-domain-months="{{ resume.domain_months }}">
+                {% for job in resume.timeline %}
+                <div class="span-row">
+                    <div class="span-label">
+                        <span class="span-company">{{ job.company }}</span>
+                        <span class="span-role">{{ job.short_title }}</span>
+                    </div>
+                    <div class="span-track">
+                        <button type="button"
+                                class="span-bar{% if job.is_current %} span-bar--current{% endif %}"
+                                style="left: {{ job.left }}; width: {{ job.width }};"
+                                data-role="{{ job.key }}"
+                                {% if job.is_current %}data-current-start="{{ job.start }}"{% endif %}
+                                aria-controls="panel-{{ job.key }}"
+                                aria-pressed="{% if job.is_selected %}true{% else %}false{% endif %}"
+                                aria-label="{{ job.title }}, {{ job.company }}, {{ job.dates }}">
+                            {% if job.bar_label %}<span>{{ job.bar_label }}</span>{% endif %}
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="span-axis" aria-hidden="true">
+                    <div></div>
+                    <div class="span-ticks">
+                        {% for tick in resume.ticks %}<span style="left: {{ tick.left }};">{{ tick.year }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="role-panels" aria-live="polite">
+                {% for job in resume.jobs %}
+                <div class="role-panel" id="panel-{{ job.key }}" data-role="{{ job.key }}"{% if not job.is_selected %} hidden{% endif %}>
+                    <div class="role-panel-main">
+                        <h3 class="role-title">{{ job.title }}</h3>
+                        <p class="position-meta subheader-text">
+                            <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
+                        </p>
+                        <div class="role-summary">
+                            {{ job.summary|markdown }}
+                        </div>
+                        {% if job.tags %}
+                        <ul class="tag-list role-tags" aria-label="Areas of focus">
+                            {% for tag in job.tags %}<li class="tag tag--accent">{{ tag }}</li>{% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="role-tenure"{% if job.is_current %} data-current-start="{{ job.start }}"{% endif %}>
+                        <span class="role-tenure-value">{{ job.tenure_value }}</span>
+                        <span class="role-tenure-unit">{{ job.tenure_unit }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="resume-section resume-section--highlights" aria-labelledby="highlights-heading">
+        <div class="section-head">
+            <div>
+                <h2 class="header-text" id="highlights-heading">Highlights</h2>
+                <p class="section-intro">The standout result from every role.</p>
+            </div>
+            <button type="button" class="text-button" id="toggle-all-details" hidden>Expand all</button>
+        </div>
+
+        <ol class="impact-list">
+            {% for job in resume.jobs %}
+            <li class="impact-item">
+                <div class="impact-figure">
+                    <span class="impact-value{% if job.figure_is_phrase %} impact-value--phrase{% endif %}">{{ job.figure }}</span>
+                    <span class="impact-note">{{ job.figure_note }}</span>
+                </div>
+                <div class="impact-copy">
+                    <h3 class="role-title">{{ job.title }}</h3>
+                    <p class="position-meta subheader-text">
+                        <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
+                    </p>
+                    <div class="summary">
+                        {{ job.summary|markdown }}
+                    </div>
+                    {% if job.details %}
+                    <details class="position-details">
+                        <summary>
+                            <span class="label-closed">Show details</span>
+                            <span class="label-open">Hide details</span>
+                        </summary>
+                        <div class="details-body">
+                            {{ job.details|markdown }}
+                        </div>
+                    </details>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
 
 </div>
 
 <script>
     (function () {
-        const button = document.getElementById('toggle-all-details');
-        const details = Array.from(document.querySelectorAll('.position-details'));
-        if (!button || !details.length) return;
+        const chart = document.getElementById('career-chart');
+        if (chart) {
+            const bars = Array.from(chart.querySelectorAll('.span-bar'));
+            const panels = Array.from(document.querySelectorAll('.role-panel'));
 
-        function sync() {
-            button.textContent = details.every(d => d.open) ? 'Collapse all' : 'Expand all';
+            bars.forEach(function (bar) {
+                bar.addEventListener('click', function () {
+                    bars.forEach(b => b.setAttribute('aria-pressed', String(b === bar)));
+                    panels.forEach(p => { p.hidden = p.dataset.role !== bar.dataset.role; });
+                });
+            });
+
+            // The page is rendered at deploy time, so bring the current role's bar
+            // and tenure up to today. formatTenure mirrors format_tenure in content.py.
+            const monthNumber = value => { const [y, m] = value.split('-').map(Number); return y * 12 + m - 1; };
+            const formatTenure = months => months < 12
+                ? [String(months), months === 1 ? 'month' : 'months']
+                : [(Math.floor(months / 12 * 10 + 0.5) / 10).toFixed(1).replace(/\.0$/, ''), 'years'];
+            const today = new Date();
+            const now = today.getFullYear() * 12 + today.getMonth();
+            const domainStart = monthNumber(chart.dataset.domainStart);
+            const domainMonths = Number(chart.dataset.domainMonths);
+
+            document.querySelectorAll('[data-current-start]').forEach(function (el) {
+                const start = monthNumber(el.dataset.currentStart);
+                const months = Math.max(0, now - start);
+                if (el.classList.contains('span-bar')) {
+                    const room = domainStart + domainMonths - start;
+                    el.style.width = (Math.min(months, room) / domainMonths * 100).toFixed(3) + '%';
+                } else {
+                    const [value, unit] = formatTenure(months);
+                    el.querySelector('.role-tenure-value').textContent = value;
+                    el.querySelector('.role-tenure-unit').textContent = unit;
+                }
+            });
         }
 
-        button.hidden = false;
-        button.addEventListener('click', function () {
-            const open = !details.every(d => d.open);
-            details.forEach(d => { d.open = open; });
-            sync();
-        });
-        details.forEach(d => d.addEventListener('toggle', sync));
+        const button = document.getElementById('toggle-all-details');
+        const details = Array.from(document.querySelectorAll('.impact-list .position-details'));
+        if (button && details.length) {
+            const sync = () => { button.textContent = details.every(d => d.open) ? 'Collapse all' : 'Expand all'; };
+            button.hidden = false;
+            button.addEventListener('click', function () {
+                const open = !details.every(d => d.open);
+                details.forEach(d => { d.open = open; });
+                sync();
+            });
+            details.forEach(d => d.addEventListener('toggle', sync));
 
-        // Printed or saved-as-PDF copies should include everything.
-        window.addEventListener('beforeprint', function () {
-            details.forEach(d => { d.open = true; });
-        });
+            // Printed or saved-as-PDF copies should include everything.
+            window.addEventListener('beforeprint', () => details.forEach(d => { d.open = true; }));
+        }
     })();
 </script>
 
