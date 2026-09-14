@@ -476,6 +476,10 @@ body.dark-mode .header {
 
 /* MAIN SECTIONS */
 /* Index */
+#index-main p {
+    max-width: 70ch;
+}
+
 #see-more ul {
     list-style-type: none;
     margin-left: -35px;
@@ -549,53 +553,665 @@ a:hover {
 /* Goals removed */
 
 /* Resume */
-.position {
-    margin-bottom: 75px;
+#projects-header .header-content,
+#project-header .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
 
-.position-info {
-    margin-bottom: 30px;
+.resume-section {
+    margin-top: 50px;
 }
 
-.summary p {
-    margin-top: 0;
+/* Wide layout: the header band's text and the page content share one 1000px
+   column. The header spans the body instead of 100vw, so a scrollbar can't
+   shift it out of line with the content below. */
+.header.header--wide {
+    width: calc(100% + 150px);
 }
 
-hr.divider {
-    border: 0;
-    border-top: 1px solid #ddd;
-    margin: 0 0 50px 0;
-}
-
-body.dark-mode hr.divider {
-    border-top: 1px solid #444;
+.header--wide .header-content {
+    max-width: 1150px;
+    padding-left: 95px;
+    padding-right: 95px;
 }
 
 @media (max-width: 950px) {
-    .position {
-        margin-bottom: 40px;
-    }
-    
-    .position-info {
-        margin-bottom: 20px;
+    .header.header--wide {
+        width: calc(100% + 40px);
     }
 
-    hr.divider {
-        margin: 0 0 30px 0;
+    .header--wide .header-content {
+        max-width: none;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
 
 @media (max-width: 480px) {
-    .position {
-        margin-bottom: 35px;
-    }
-    
-    .position-info {
-        margin-bottom: 15px;
+    .header.header--wide {
+        width: calc(100% + 30px);
     }
 
-    hr.divider {
-        margin: 0 0 25px 0;
+    .header--wide .header-content {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 }
 
+.section-head {
+    margin-bottom: 24px;
+}
+
+.section-head .header-text {
+    margin: 0;
+}
+
+.section-intro {
+    margin: 2px 0 0;
+}
+
+.section-intro,
+.span-role,
+.role-tenure-unit {
+    color: #555555;
+}
+
+body.dark-mode .section-intro,
+body.dark-mode .span-role,
+body.dark-mode .role-tenure-unit {
+    color: #a8a8a8;
+}
+
+.position-meta {
+    margin: 0;
+    line-height: 1.5em;
+}
+
+.position-meta .separator {
+    margin: 0 0.45em;
+    opacity: 0.5;
+}
+
+.role-title {
+    margin: 0 0 4px;
+    font-family: "Bitter", system-ui;
+    font-size: 1.3em;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* Career at a glance */
+.career-panel {
+    padding: 28px 28px 4px;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+body.dark-mode .career-panel {
+    border-color: #333333;
+    background-color: #222222;
+}
+
+.career-chart {
+    display: grid;
+    gap: 8px;
+}
+
+.span-row,
+.span-axis {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+}
+
+.span-label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85em;
+    line-height: 1.25;
+    text-align: right;
+}
+
+.span-company {
+    font-weight: 600;
+}
+
+.span-track {
+    position: relative;
+    height: 30px;
+}
+
+.span-track::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    border-top: 1px dashed #dddddd;
+}
+
+body.dark-mode .span-track::before {
+    border-top-color: #3a3a3a;
+}
+
+.span-bar {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    min-width: 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background-color: #d6d6d6;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+/* The current role's bar runs off its right edge rather than ending. */
+.span-bar--current {
+    border-radius: 4px 0 0 4px;
+}
+
+.span-bar:hover {
+    background-color: #b5b5b5;
+}
+
+.span-bar[aria-pressed="true"] {
+    background-color: #000000;
+}
+
+.span-bar:focus-visible {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+}
+
+body.dark-mode .span-bar {
+    background-color: #3d3d3d;
+}
+
+body.dark-mode .span-bar:hover {
+    background-color: #5a5a5a;
+}
+
+body.dark-mode .span-bar[aria-pressed="true"] {
+    background-color: #e0e0e0;
+}
+
+.span-ticks {
+    position: relative;
+    height: 24px;
+    border-top: 1px solid #dddddd;
+}
+
+body.dark-mode .span-ticks {
+    border-top-color: #3a3a3a;
+}
+
+.span-ticks span {
+    position: absolute;
+    top: 4px;
+    transform: translateX(-50%);
+    font-size: 0.72em;
+    font-variant-numeric: tabular-nums;
+    color: #777777;
+}
+
+body.dark-mode .span-ticks span {
+    color: #8a8a8a;
+}
+
+.role-panel {
+    margin-top: 20px;
+    padding: 24px 0;
+    border-top: 1px solid #e6e6e6;
+}
+
+/* Title and dates on the left, time in the role on the right, at every width. */
+.role-panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px 32px;
+}
+
+body.dark-mode .role-panel {
+    border-top-color: #333333;
+}
+
+/* Leave room below the fixed nav when Collapse scrolls back to the panel. */
+.role-panel {
+    scroll-margin-top: 110px;
+}
+
+.role-tenure {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.role-tenure-value {
+    font-family: "Abril Fatface", system-ui;
+    font-size: 2.8em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.role-tenure-unit {
+    font-size: 0.75em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.expandable {
+    position: relative;
+    max-width: 72ch;
+}
+
+.expandable-content {
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+/* About five lines, plus the first paragraph's top margin. */
+.expandable.is-clamped .expandable-content {
+    max-height: calc(5 * 1.65em + 10px);
+}
+
+.expandable-content p {
+    margin: 10px 0 0.6em;
+}
+
+.expandable-content ul {
+    margin-bottom: 0;
+    padding-left: 1.2em;
+}
+
+.expandable-content li {
+    margin-bottom: 0.6em;
+}
+
+.expandable.is-clamped::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4.5em;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff 70%);
+    pointer-events: none;
+}
+
+body.dark-mode .expandable.is-clamped::after {
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0), #1a1a1a 70%);
+}
+
+/* The chart card has its own background in dark mode, so its fade has to match. */
+body.dark-mode .career-panel .expandable.is-clamped::after {
+    background: linear-gradient(to bottom, rgba(34, 34, 34, 0), #222222 70%);
+}
+
+.expandable-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: "Bitter", system-ui;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #000000;
+    cursor: pointer;
+}
+
+.expandable-toggle::after {
+    content: "";
+    width: 0.45em;
+    height: 0.45em;
+    margin-top: -0.25em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+}
+
+/* "See more" sits on the fade; "Collapse" follows the full text. */
+.expandable-more {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.expandable-less {
+    margin-top: 4px;
+}
+
+.expandable-less::after {
+    margin-top: 0.3em;
+    transform: rotate(-135deg);
+}
+
+body.dark-mode .expandable-toggle {
+    color: #e0e0e0;
+}
+
+.expandable-toggle:hover {
+    opacity: 0.75;
+}
+
+.expandable-toggle:focus-visible {
+    outline: 2px solid #1976d2;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .expandable-content {
+        transition: none;
+    }
+}
+
+@media (max-width: 950px) {
+    .career-panel {
+        padding: 20px 18px 4px;
+    }
+}
+
+/* Below this width a label for every year crowds the axis, so label every other year. */
+@media (max-width: 1100px) {
+    .span-ticks span:nth-child(even) {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .span-row,
+    .span-axis {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .span-axis > div:first-child {
+        display: none;
+    }
+
+    .span-label {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0 0.4em;
+        text-align: left;
+    }
+
+    .role-tenure-value {
+        font-size: 2em;
+    }
+}
+
+
+/* Projects */
+.main.main-wide {
+    max-width: 1000px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+    margin: 50px 0 30px;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    background-color: #ffffff;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+    opacity: 1;
+    text-decoration: none;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .project-card {
+    border-color: #333333;
+    background-color: #222222;
+}
+
+body.dark-mode .project-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.project-card--featured {
+    grid-column: 1 / -1;
+}
+
+.project-cover {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.project-card--featured .project-cover {
+    aspect-ratio: 21 / 9;
+}
+
+.project-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-cover img {
+    transform: scale(1.03);
+}
+
+.project-cover--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f3efe7, #e2dacb);
+}
+
+body.dark-mode .project-cover--placeholder {
+    background: linear-gradient(135deg, #2c2c2c, #1e1e1e);
+}
+
+.project-cover .project-monogram {
+    font-family: "Abril Fatface", system-ui;
+    font-size: 4.5em;
+    opacity: 0.25;
+}
+
+.draft-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background-color: #b3261e;
+    font-family: "Bitter", system-ui;
+    font-size: 0.75em;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.draft-badge,
+body.dark-mode .draft-badge {
+    color: #ffffff;
+}
+
+.draft-badge--inline {
+    position: static;
+}
+
+.project-card-body {
+    padding: 20px 22px 24px;
+}
+
+.project-card .project-card-title {
+    margin: 0 0 6px;
+    font-size: 1.4em;
+    line-height: 1.3em;
+}
+
+.project-card-summary {
+    margin: 0 0 14px;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tag {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background-color: #f0f0f0;
+    font-family: "Bitter", system-ui;
+    font-size: 0.75em;
+    letter-spacing: 0.03em;
+    line-height: 1.8em;
+}
+
+.tag,
+body.dark-mode .tag {
+    color: #333333;
+}
+
+body.dark-mode .tag {
+    background-color: #333333;
+    color: #cccccc;
+}
+
+.projects-empty {
+    margin: 50px 0;
+}
+
+/* Project detail */
+.back-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    text-decoration: none;
+}
+
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin-top: 4px;
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Bootstrap loads after this file, so link colors need the extra specificity. */
+.pill-link,
+.pill-link:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+.pill-link {
+    padding: 6px 16px;
+    border: 1px solid #000000;
+    border-radius: 999px;
+    font-family: "Bitter", system-ui;
+    font-size: 0.9em;
+}
+
+body.dark-mode .pill-link,
+body.dark-mode .pill-link:hover {
+    border-color: #e0e0e0;
+    color: #e0e0e0;
+}
+
+.project-hero {
+    margin: 40px 0 10px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.project-hero img {
+    display: block;
+    width: 100%;
+}
+
+.prose {
+    margin: 30px 0 60px;
+}
+
+.prose h2 {
+    margin: 1.6em 0 0.5em;
+    font-family: "Bitter", system-ui;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.prose img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.5em auto;
+    border-radius: 10px;
+}
+
+.prose .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 1.5em 0;
+}
+
+.prose .gallery p {
+    margin: 0;
+}
+
+.prose .gallery img {
+    width: 100%;
+    margin: 0;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.prose blockquote {
+    margin-left: 0;
+    padding-left: 1em;
+    border-left: 3px solid #cccccc;
+    font-style: italic;
+}
+
+@media (max-width: 700px) {
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-top: 30px;
+    }
+
+    .project-card--featured .project-cover {
+        aspect-ratio: 16 / 10;
+    }
+}

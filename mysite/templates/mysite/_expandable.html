@@ -1,0 +1,14 @@
+{% load markdown_deux_tags %}
+{% comment %}
+A role's full write-up (summary, then details), clipped with a fade and
+expanded by "See more". The script in resume.html manages the state; without
+JavaScript the full text is shown. Pass `job` and a unique `content_id`.
+{% endcomment %}
+<div class="expandable">
+    <div class="expandable-content" id="{{ content_id }}">
+        {{ job.summary|markdown }}
+        {% if job.details %}{{ job.details|markdown }}{% endif %}
+    </div>
+    <button type="button" class="expandable-toggle expandable-more" aria-controls="{{ content_id }}" aria-expanded="false" hidden>See more</button>
+    <button type="button" class="expandable-toggle expandable-less" aria-controls="{{ content_id }}" aria-expanded="true" hidden>Collapse</button>
+</div>
