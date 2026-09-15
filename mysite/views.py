@@ -5,7 +5,9 @@ from .content import load_projects, load_resume
 
 
 def index(request):
-    return render(request, "mysite/index.html")
+    return render(request, "mysite/index.html", {
+        "resume": load_resume()
+    })
 
 
 def resume(request):

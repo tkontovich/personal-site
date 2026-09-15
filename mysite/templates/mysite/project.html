@@ -5,16 +5,15 @@ Trent Kontovich: {{ project.title }}
 {% endblock %}
 
 {% block body %}
-
-<div class="header" id="project-header">
-    <div class="header-content">
-        <div class="headline">
-            <a class="back-link body-text" href="{% url 'projects' %}">&larr; All projects</a>
-            <h1 class="page-heading main-headline">{{ project.title }}</h1>
-            <p class="body-text">{{ project.summary }}</p>
+<div class="page-width">
+    <section class="hero" aria-labelledby="page-title">
+        <div class="hero-text">
+            <a class="back-link" href="{% url 'projects' %}">&larr; All projects</a>
+            <h1 class="hero-title" id="page-title">{{ project.title }}</h1>
+            <p class="hero-lede">{{ project.summary }}</p>
             <div class="project-meta">
                 {% if project.draft %}<span class="draft-badge draft-badge--inline">Draft</span>{% endif %}
-                {% if project.date %}<span class="subheader-text">{{ project.date }}</span>{% endif %}
+                {% if project.date %}<span class="project-date">{{ project.date }}</span>{% endif %}
                 {% if project.tags %}
                 <ul class="tag-list">
                     {% for tag in project.tags %}<li class="tag">{{ tag }}</li>{% endfor %}
@@ -29,19 +28,18 @@ Trent Kontovich: {{ project.title }}
             </div>
             {% endif %}
         </div>
+    </section>
+
+    <div class="content">
+        {% if project.cover_url %}
+        <div class="project-hero">
+            <img src="{{ project.cover_url }}" alt="{{ project.title }}">
+        </div>
+        {% endif %}
+
+        <div class="prose">
+            {{ project.body_html|safe }}
+        </div>
     </div>
 </div>
-
-<div class="main body-text" id="project-main">
-    {% if project.cover_url %}
-    <div class="project-hero">
-        <img src="{{ project.cover_url }}" alt="{{ project.title }}">
-    </div>
-    {% endif %}
-
-    <div class="prose">
-        {{ project.body_html|safe }}
-    </div>
-</div>
-
 {% endblock %}

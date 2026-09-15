@@ -9,22 +9,19 @@ Trent Kontovich: Resume
 <!-- main page content -->
 {% block body %}
 
-<div class="header header--wide" id="resume-header">
-    <div class="header-content">
-        <div class="headline">
-            <h1 class="page-heading main-headline">Resume</h1>
-            <p class="body-text">
-                Interested in my work experience? Get the details below!
-            </p>
+<div class="page-width">
+    <section class="hero" aria-labelledby="page-title">
+        <div class="hero-text">
+            <h1 class="hero-title" id="page-title">Resume</h1>
+            <p class="hero-lede">Interested in my work experience? Get the details below!</p>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="main main-wide body-text" id="resume-main">
+<div class="content" id="resume-main">
 
     <section class="resume-section" aria-labelledby="glance-heading">
         <div class="section-head">
-            <h2 class="header-text" id="glance-heading">Career at a glance</h2>
+            <h2 class="section-title" id="glance-heading">Career at a glance</h2>
             <p class="section-intro">Select a role to see what it involved.</p>
         </div>
 
@@ -82,6 +79,7 @@ Trent Kontovich: Resume
 
 
 </div>
+</div>
 
 <script>
     (function () {
@@ -128,9 +126,9 @@ Trent Kontovich: Resume
             block.querySelector('.expandable-more').focus({ preventScroll: true });
 
             // Collapsing a long entry from its bottom can leave its start above the
-            // fixed nav, so bring the entry back into view.
+            // top of the window, so bring the entry back into view.
             const entry = block.closest('.role-panel');
-            if (entry.getBoundingClientRect().top < 110) {
+            if (entry.getBoundingClientRect().top < 24) {
                 entry.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
             }
         }

@@ -5,46 +5,42 @@ Trent Kontovich: Projects
 {% endblock %}
 
 {% block body %}
-
-<div class="header" id="projects-header">
-    <div class="header-content">
-        <div class="headline">
-            <h1 class="page-heading main-headline">Projects</h1>
-            <p class="body-text">
-                Things I've built on the side: electronics, apps, and whatever I'm tinkering with next.
-            </p>
+<div class="page-width">
+    <section class="hero" aria-labelledby="page-title">
+        <div class="hero-text">
+            <h1 class="hero-title" id="page-title">Projects</h1>
+            <p class="hero-lede">Things I've built on the side: electronics, apps, and whatever I'm tinkering with next.</p>
         </div>
+    </section>
+
+    <div class="content" id="projects-main">
+        {% if projects %}
+        <div class="project-grid">
+            {% for project in projects %}
+            <a class="project-card{% if forloop.first %} project-card--featured{% endif %}" href="{% url 'project' project.slug %}">
+                <div class="project-cover{% if not project.cover_url %} project-cover--placeholder{% endif %}">
+                    {% if project.cover_url %}
+                    <img src="{{ project.cover_url }}" alt="" loading="lazy">
+                    {% else %}
+                    <span class="project-monogram" aria-hidden="true">{{ project.title|first }}</span>
+                    {% endif %}
+                    {% if project.draft %}<span class="draft-badge">Draft</span>{% endif %}
+                </div>
+                <div class="project-card-body">
+                    <h2 class="project-card-title">{{ project.title }}</h2>
+                    <p class="project-card-summary">{{ project.summary }}</p>
+                    {% if project.tags %}
+                    <ul class="tag-list">
+                        {% for tag in project.tags %}<li class="tag">{{ tag }}</li>{% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="projects-empty">Projects are on the way. Check back soon.</p>
+        {% endif %}
     </div>
 </div>
-
-<div class="main main-wide body-text" id="projects-main">
-    {% if projects %}
-    <div class="project-grid">
-        {% for project in projects %}
-        <a class="project-card{% if forloop.first %} project-card--featured{% endif %}" href="{% url 'project' project.slug %}">
-            <div class="project-cover{% if not project.cover_url %} project-cover--placeholder{% endif %}">
-                {% if project.cover_url %}
-                <img src="{{ project.cover_url }}" alt="" loading="lazy">
-                {% else %}
-                <span class="project-monogram" aria-hidden="true">{{ project.title|first }}</span>
-                {% endif %}
-                {% if project.draft %}<span class="draft-badge">Draft</span>{% endif %}
-            </div>
-            <div class="project-card-body">
-                <h2 class="project-card-title header-text">{{ project.title }}</h2>
-                <p class="project-card-summary">{{ project.summary }}</p>
-                {% if project.tags %}
-                <ul class="tag-list">
-                    {% for tag in project.tags %}<li class="tag">{{ tag }}</li>{% endfor %}
-                </ul>
-                {% endif %}
-            </div>
-        </a>
-        {% endfor %}
-    </div>
-    {% else %}
-    <p class="projects-empty">Projects are on the way. Check back soon.</p>
-    {% endif %}
-</div>
-
 {% endblock %}
