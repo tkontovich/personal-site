@@ -8,8 +8,7 @@
     <title>{% block title %}Trent Kontovich{% endblock %}</title>
 
     <!-- Before anything paints: set the theme (the saved choice, else the system
-         setting), hide the elements that settle in the first time this page is shown
-         in a visit, and note whether the browser ran a page transition to get here. -->
+         setting), and hide the elements that settle in as the page loads. -->
     <script>
         (function () {
             var root = document.documentElement;
@@ -21,18 +20,13 @@
             root.dataset.theme = dark ? 'dark' : 'light';
 
             try {
-                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('entered:' + window.location.pathname)) {
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     root.classList.add('will-enter');
                     // Never leave content hidden if the motion script fails to run.
                     setTimeout(function () { root.classList.remove('will-enter'); }, 2500);
                 }
             } catch (e) {}
 
-            // motion.js slides the nav highlight itself when no transition ran.
-            window.addEventListener('pagereveal', function (event) {
-                root.dataset.navTransition = event.viewTransition ? 'native' : 'none';
-                document.dispatchEvent(new Event('nav-reveal'));
-            });
         })();
     </script>
 
@@ -40,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
-    <link rel="stylesheet" href="{% static 'mysite/styles.css' %}?v=27">
+    <link rel="stylesheet" href="{% static 'mysite/styles.css' %}?v=28">
 
     {% block script %}
     {% endblock %}
@@ -79,7 +73,7 @@
         </footer>
     </div>
 
-    <script src="{% static 'mysite/motion.js' %}?v=2"></script>
+    <script src="{% static 'mysite/motion.js' %}?v=3"></script>
 </body>
 
 </html>

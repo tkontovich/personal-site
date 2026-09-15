@@ -6,10 +6,9 @@
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const EASE_OUT = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
 
-    /* Page settles in: the first time each page is shown in a visit, elements
-       marked data-enter rise and fade in one after another. The head script in
-       layout.html hides them before the page paints, so they never flash in and
-       back out. */
+    /* Page settles in: every time a page loads, elements marked data-enter rise
+       and fade in one after another. The head script in layout.html hides them
+       before the page paints, so they never flash in and back out. */
     if (root.classList.contains('will-enter')) {
         document.querySelectorAll('[data-enter]').forEach(function (el, i) {
             el.animate(
@@ -18,7 +17,6 @@
             );
         });
         root.classList.remove('will-enter');
-        try { sessionStorage.setItem('entered:' + window.location.pathname, '1'); } catch (e) {}
     }
 
     /* Dark mode spreads from the button. A view transition snapshots the page,
@@ -78,11 +76,10 @@
     });
     updateLabel();
 
-    /* Nav highlight slides between pages. Browsers with cross-document view
-       transitions do it natively (@view-transition in styles.css). Where that
-       isn't supported or doesn't run, the highlight slides in from the link you
-       came from as soon as the new page appears. The head script in layout.html
-       records whether the browser ran a transition for this page. */
+    /* Nav highlight slides between pages: arriving from another link in the nav,
+       the highlight slides over from that link. It runs in the page itself rather
+       than as a browser page transition, because some Chromium browsers (Arc, for
+       one) report a page transition without showing it. */
     const navLinks = Array.from(document.querySelectorAll('.site-links a'));
     const pill = document.querySelector('.nav-pill');
     const here = navLinks.findIndex(link => link.hasAttribute('aria-current'));
@@ -100,24 +97,15 @@
     } catch (e) {}
 
     if (pill && cameFrom >= 0 && cameFrom !== here && navLinks[cameFrom] && !reduceMotion.matches) {
-        const slideFromPreviousLink = function () {
-            if (root.dataset.navTransition === 'native') return;
-            const from = navLinks[cameFrom].getBoundingClientRect();
-            const to = pill.parentElement.getBoundingClientRect();
-            pill.animate(
-                [
-                    { left: (from.left - to.left) + 'px', right: (to.right - from.right) + 'px' },
-                    { left: '0px', right: '0px' }
-                ],
-                { duration: 420, easing: 'cubic-bezier(0.3, 1.3, 0.5, 1)' }
-            );
-        };
-
-        if (root.dataset.navTransition || !('onpagereveal' in window)) {
-            slideFromPreviousLink();
-        } else {
-            document.addEventListener('nav-reveal', slideFromPreviousLink, { once: true });
-        }
+        const from = navLinks[cameFrom].getBoundingClientRect();
+        const to = pill.parentElement.getBoundingClientRect();
+        pill.animate(
+            [
+                { left: (from.left - to.left) + 'px', right: (to.right - from.right) + 'px' },
+                { left: '0px', right: '0px' }
+            ],
+            { duration: 420, easing: 'cubic-bezier(0.3, 1.3, 0.5, 1)', fill: 'backwards' }
+        );
     }
 
     /* Cards glide into place when the homepage switches between one and two

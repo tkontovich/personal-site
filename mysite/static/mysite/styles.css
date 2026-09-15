@@ -233,15 +233,13 @@ main:focus {
     color: var(--ink);
 }
 
-/* The current page's highlight. Its view-transition name tells the browser it's
-   the same element on every page, so navigating slides it to the new link. */
+/* The current page's highlight. motion.js slides it over from the link you came from. */
 .nav-pill {
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: 999px;
     background-color: var(--band);
-    view-transition-name: nav-pill;
 }
 
 .theme-toggle {
@@ -1121,7 +1119,7 @@ main:focus {
 
 /* Motion */
 
-/* Moving between pages cross-fades, and the nav highlight slides to the new link. */
+/* Moving between pages cross-fades, where the browser supports it. */
 @view-transition {
     navigation: auto;
 }
@@ -1129,11 +1127,6 @@ main:focus {
 ::view-transition-old(root),
 ::view-transition-new(root) {
     animation-duration: 0.22s;
-}
-
-::view-transition-group(nav-pill) {
-    animation-duration: 0.42s;
-    animation-timing-function: cubic-bezier(0.3, 1.3, 0.5, 1);
 }
 
 /* Switching themes reveals the new theme in a circle growing from the button.
@@ -1144,12 +1137,6 @@ html.theme-switching *:not(.theme-toggle svg),
 html.theme-switching *::before,
 html.theme-switching *::after {
     transition: none !important;
-}
-
-/* The nav highlight is animated on its own between pages. During a theme switch it
-   has to stay part of the page, or it jumps to the new theme ahead of the circle. */
-html.theme-switching .nav-pill {
-    view-transition-name: none;
 }
 
 html.theme-switching::view-transition-old(root) {
