@@ -233,7 +233,17 @@ main:focus {
     color: var(--ink);
 }
 
-/* The current page's highlight. motion.js slides it over from the link you came from. */
+/* While the highlight slides to a clicked link, that link takes the current page's
+   text color and the current page's link fades back. */
+.site-links.is-moving a[aria-current="page"] {
+    color: var(--muted);
+}
+
+.site-links a.is-target {
+    color: var(--ink);
+}
+
+/* The current page's highlight. motion.js slides it to the link you click. */
 .nav-pill {
     position: absolute;
     inset: 0;

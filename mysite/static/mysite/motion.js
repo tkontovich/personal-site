@@ -76,36 +76,48 @@
     });
     updateLabel();
 
-    /* Nav highlight slides between pages: arriving from another link in the nav,
-       the highlight slides over from that link. It runs in the page itself rather
-       than as a browser page transition, because some Chromium browsers (Arc, for
-       one) report a page transition without showing it. */
-    const navLinks = Array.from(document.querySelectorAll('.site-links a'));
+    /* Nav highlight slides to the link you click. The slide plays on the page you're
+       on, and the next page opens once it finishes, with the highlight already in
+       place. Sliding on arrival instead showed the highlight on the new link for a
+       moment before the animation jumped it back to start. */
+    const navList = document.querySelector('.site-links');
     const pill = document.querySelector('.nav-pill');
-    const here = navLinks.findIndex(link => link.hasAttribute('aria-current'));
+    const SLIDE_MS = 260;
 
-    navLinks.forEach(function (link) {
-        link.addEventListener('click', function () {
-            try { sessionStorage.setItem('nav-from', String(here)); } catch (e) {}
+    if (navList && pill) {
+        navList.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                // Let the browser handle new-tab clicks, the current page, and reduced motion.
+                if (link.hasAttribute('aria-current') || reduceMotion.matches || event.defaultPrevented ||
+                    event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                    return;
+                }
+                event.preventDefault();
+
+                const from = pill.parentElement.getBoundingClientRect();
+                const to = link.getBoundingClientRect();
+                navList.classList.add('is-moving');
+                link.classList.add('is-target');
+                pill.animate(
+                    [
+                        { left: '0px', right: '0px' },
+                        { left: (to.left - from.left) + 'px', right: (from.right - to.right) + 'px' }
+                    ],
+                    { duration: SLIDE_MS, easing: EASE_OUT, fill: 'forwards' }
+                ).finished.then(function () {
+                    window.location.href = link.href;
+                });
+            });
         });
-    });
 
-    let cameFrom = -1;
-    try {
-        cameFrom = Number(sessionStorage.getItem('nav-from') ?? -1);
-        sessionStorage.removeItem('nav-from');
-    } catch (e) {}
-
-    if (pill && cameFrom >= 0 && cameFrom !== here && navLinks[cameFrom] && !reduceMotion.matches) {
-        const from = navLinks[cameFrom].getBoundingClientRect();
-        const to = pill.parentElement.getBoundingClientRect();
-        pill.animate(
-            [
-                { left: (from.left - to.left) + 'px', right: (to.right - from.right) + 'px' },
-                { left: '0px', right: '0px' }
-            ],
-            { duration: 420, easing: 'cubic-bezier(0.3, 1.3, 0.5, 1)', fill: 'backwards' }
-        );
+        // Coming back with the Back button can restore this page exactly as it was
+        // left, mid-slide. Put the highlight back on the current page.
+        window.addEventListener('pageshow', function (event) {
+            if (!event.persisted) return;
+            pill.getAnimations().forEach(animation => animation.cancel());
+            navList.classList.remove('is-moving');
+            navList.querySelectorAll('.is-target').forEach(link => link.classList.remove('is-target'));
+        });
     }
 
     /* Cards glide into place when the homepage switches between one and two
