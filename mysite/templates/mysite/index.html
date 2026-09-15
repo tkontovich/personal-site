@@ -43,24 +43,49 @@ Trent Kontovich: Home
                 </ul>
             </section>
 
-            <a class="card resume-card" href="{% url 'resume' %}">
+            {% with current=resume.jobs.0 %}
+            <a class="card resume-card" href="{% url 'resume' %}" data-base-href="{% url 'resume' %}">
                 <h2 class="card-title">Resume preview</h2>
                 <div class="mini-chart" aria-hidden="true">
                     {% for job in resume.timeline %}
-                    <div class="mini-row">
+                    <div class="mini-row{% if job.key == current.key %} is-active{% endif %}"
+                         data-role="{{ job.key }}" data-title="{{ job.title }}" data-company="{{ job.company }}" data-dates="{{ job.dates }}">
                         <span class="mini-label">{{ job.company }}</span>
-                        <span class="mini-track"><i class="{% if job.is_current %}is-current{% endif %}" style="left: {{ job.left }}; width: {{ job.width }};"></i></span>
+                        <span class="mini-track"><i style="left: {{ job.left }}; width: {{ job.width }};"></i></span>
                     </div>
                     {% endfor %}
                 </div>
-                {% with current=resume.jobs.0 %}
                 <span class="resume-card-foot">
                     <span class="resume-card-role">{{ current.title }}</span>
                     <span class="resume-card-meta">{{ current.company }} &middot; {{ current.dates }}</span>
                 </span>
-                {% endwith %}
             </a>
+            {% endwith %}
         </div>
     </div>
 </div>
+
+<script>
+    // Resume preview: pointing at a role shows its title, and clicking opens the
+    // resume with that role selected. Leaving the card goes back to the current role.
+    (function () {
+        const card = document.querySelector('.resume-card');
+        if (!card) return;
+
+        const rows = Array.from(card.querySelectorAll('.mini-row'));
+        const current = card.querySelector('.mini-row.is-active');
+        const role = card.querySelector('.resume-card-role');
+        const meta = card.querySelector('.resume-card-meta');
+
+        function show(row) {
+            rows.forEach(r => r.classList.toggle('is-active', r === row));
+            role.textContent = row.dataset.title;
+            meta.textContent = row.dataset.company + ' · ' + row.dataset.dates;
+            card.href = row === current ? card.dataset.baseHref : card.dataset.baseHref + '#' + row.dataset.role;
+        }
+
+        rows.forEach(row => row.addEventListener('mouseenter', () => show(row)));
+        card.addEventListener('mouseleave', () => show(current));
+    })();
+</script>
 {% endblock %}
