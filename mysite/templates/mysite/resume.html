@@ -10,19 +10,19 @@ Trent Kontovich: Resume
 <div class="page-width">
     <section class="hero" aria-labelledby="page-title">
         <div class="hero-text">
-            <h1 class="hero-title" id="page-title">Resume</h1>
-            <p class="hero-lede">Interested in my work experience? Get the details below!</p>
+            <h1 class="hero-title" id="page-title" data-enter>Resume</h1>
+            <p class="hero-lede" data-enter>Interested in my work experience? Get the details below!</p>
         </div>
     </section>
 
     <div class="content" id="resume-main">
         <section class="resume-section" aria-labelledby="glance-heading">
-            <div class="section-head">
+            <div class="section-head" data-enter>
                 <h2 class="section-title" id="glance-heading">Career at a glance</h2>
                 <p class="section-intro">Select a role to see what it involved.</p>
             </div>
 
-            <div class="career-panel">
+            <div class="career-panel" data-enter>
                 {% comment %}
                 The timeline is a set of tabs: each bar selects a role panel below it.
                 Tab and arrow keys move between roles, and the Earlier and Later
@@ -104,9 +104,13 @@ Trent Kontovich: Resume
         const count = document.getElementById('role-count');
         const announcer = document.getElementById('role-announcer');
         let selected = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // True on the first page of a visit, while the page is still settling in.
+        const entering = document.documentElement.classList.contains('will-enter');
 
         function select(index, options) {
-            const { focusTab = false, announce = false } = options || {};
+            const { focusTab = false, announce = false, animate = false } = options || {};
+            const previous = selected;
             selected = Math.max(0, Math.min(tabs.length - 1, index));
 
             tabs.forEach(function (tab, i) {
@@ -115,6 +119,14 @@ Trent Kontovich: Resume
                 tab.tabIndex = isSelected ? 0 : -1;
                 document.getElementById(tab.getAttribute('aria-controls')).hidden = !isSelected;
             });
+
+            // The newly selected role's write-up slides up into place.
+            if (animate && previous !== selected && !reduceMotion) {
+                document.getElementById(tabs[selected].getAttribute('aria-controls')).animate(
+                    [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }],
+                    { duration: 280, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
+                );
+            }
 
             // At either end the button stays focusable but does nothing, so focus isn't lost.
             earlier.setAttribute('aria-disabled', String(selected === 0));
@@ -129,21 +141,21 @@ Trent Kontovich: Resume
         }
 
         tabs.forEach(function (tab, i) {
-            tab.addEventListener('click', () => select(i));
+            tab.addEventListener('click', () => select(i, { animate: true }));
             tab.addEventListener('keydown', function (event) {
                 const moves = { ArrowUp: i - 1, ArrowLeft: i - 1, ArrowDown: i + 1, ArrowRight: i + 1, Home: 0, End: tabs.length - 1 };
                 if (!(event.key in moves)) return;
                 event.preventDefault();
-                select(moves[event.key], { focusTab: true });
+                select(moves[event.key], { focusTab: true, animate: true });
             });
         });
-        labels.forEach((label, i) => label.addEventListener('click', () => select(i)));
+        labels.forEach((label, i) => label.addEventListener('click', () => select(i, { animate: true })));
 
         earlier.addEventListener('click', function () {
-            if (selected > 0) select(selected - 1, { announce: true });
+            if (selected > 0) select(selected - 1, { announce: true, animate: true });
         });
         later.addEventListener('click', function () {
-            if (selected < tabs.length - 1) select(selected + 1, { announce: true });
+            if (selected < tabs.length - 1) select(selected + 1, { announce: true, animate: true });
         });
 
         // The homepage resume preview links here with a role in the address, like #role-2.
@@ -174,6 +186,32 @@ Trent Kontovich: Resume
                 el.querySelector('.role-tenure-unit').textContent = unit;
             }
         });
+
+        // The timeline draws itself the first time it scrolls into view. A playhead
+        // sweeps left to right at a steady pace, so each bar starts growing at the
+        // point in time its role began and finishes where it ended.
+        const SWEEP_MS = 1800;
+        if (!reduceMotion && 'IntersectionObserver' in window) {
+            tabs.forEach(tab => { tab.style.transform = 'scaleX(0)'; });
+            const observer = new IntersectionObserver(function (entries) {
+                if (!entries.some(entry => entry.isIntersecting)) return;
+                observer.disconnect();
+                // Wait for the page to finish settling in, if it's doing that.
+                const start = entering ? 450 : 0;
+                tabs.forEach(function (tab) {
+                    const left = parseFloat(tab.style.left) / 100;
+                    const width = parseFloat(tab.style.width) / 100;
+                    tab.style.transform = '';
+                    tab.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], {
+                        duration: Math.max(140, width * SWEEP_MS),
+                        delay: start + left * SWEEP_MS,
+                        easing: 'linear',
+                        fill: 'backwards'
+                    });
+                });
+            }, { threshold: 0.35 });
+            observer.observe(chart);
+        }
     })();
 </script>
 

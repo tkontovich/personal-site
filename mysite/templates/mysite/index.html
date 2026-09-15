@@ -9,18 +9,18 @@ Trent Kontovich: Home
 <div class="page-width">
     <section class="hero" aria-labelledby="page-title">
         <div class="hero-text">
-            <h1 class="hero-title" id="page-title">Hi there, I'm Trent</h1>
-            <p class="hero-lede">
+            <h1 class="hero-title" id="page-title" data-enter>Hi there, I'm Trent</h1>
+            <p class="hero-lede" data-enter>
                 Welcome to my site! You can use this to learn a bit more about me,
                 check out my work history, or get in touch.
             </p>
         </div>
-        <img class="hero-illo" src="{% static 'mysite/me.png' %}" width="241" height="240"
+        <img class="hero-illo" src="{% static 'mysite/me.png' %}" width="241" height="240" data-enter
              alt="Illustration of Trent with Frank the beagle, a rock climber, and mountains">
     </section>
 
     <div class="content home-grid">
-        <section class="prose" aria-labelledby="about-title">
+        <section class="prose" aria-labelledby="about-title" data-enter>
             <h2 class="section-title" id="about-title">About me</h2>
             <p>
                 I'm a rock climber, husband, dog dad, Design Program Manager, and very occasional runner
@@ -35,7 +35,7 @@ Trent Kontovich: Home
         </section>
 
         <div class="home-side">
-            <section class="card" aria-labelledby="more-title">
+            <section class="card" aria-labelledby="more-title" data-enter>
                 <h2 class="card-title" id="more-title">Want to see more?</h2>
                 <ul class="link-list">
                     <li><a href="https://www.linkedin.com/in/trent-kontovich/">LinkedIn <span class="link-arrow" aria-hidden="true">&nearr;</span></a></li>
@@ -44,7 +44,7 @@ Trent Kontovich: Home
             </section>
 
             {% with current=resume.jobs.0 %}
-            <a class="card resume-card" href="{% url 'resume' %}" data-base-href="{% url 'resume' %}">
+            <a class="card resume-card" href="{% url 'resume' %}" data-base-href="{% url 'resume' %}" data-enter>
                 <h2 class="card-title">Resume preview</h2>
                 <div class="mini-chart" aria-hidden="true">
                     {% for job in resume.timeline %}
