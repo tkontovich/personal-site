@@ -757,10 +757,32 @@ main:focus {
     cursor: default;
 }
 
+.stepper-button,
+.stepper-count {
+    white-space: nowrap;
+}
+
 .stepper-count {
     color: var(--muted);
     font-size: 0.85rem;
     font-variant-numeric: tabular-nums;
+}
+
+/* On phones the buttons read "Earlier" and "Later". The word "role" is only
+   hidden visually, so screen readers still hear "Earlier role". */
+@media (max-width: 480px) {
+    .stepper-button {
+        padding: 10px 13px;
+    }
+
+    .stepper-word {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
 }
 
 .visually-hidden {
@@ -986,12 +1008,17 @@ main:focus {
     margin-top: 32px;
 }
 
-.prose h2 {
-    margin-top: 1.6em;
+/* Headings inside a project write-up. Section titles (like About me on the
+   homepage) keep their own size and get no extra space above them. */
+.prose h2:not(.section-title) {
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1.2;
+}
+
+.prose > * + h2:not(.section-title) {
+    margin-top: 1.6em;
 }
 
 .prose img {
