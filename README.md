@@ -21,8 +21,7 @@ Each role has:
 - `short_title`: a shorter title for the chart label (optional; defaults to `title`)
 - `start`, `end`: months as `"YYYY-MM"`. Use `null` for `end` on your current role.
 - `summary`, `details`: the role's full write-up, shown when the role is selected
-  in the chart. Long write-ups fade out with "See more", and expanded ones end
-  with "Collapse". Leave `details` empty for none.
+  in the chart. Leave `details` empty for none.
 
 The chart's timeline, bar sizes, and tenure are all worked out from the dates.
 

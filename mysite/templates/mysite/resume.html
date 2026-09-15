@@ -1,12 +1,10 @@
 {% extends 'mysite/layout.html' %}
 {% load markdown_deux_tags %}
 
-<!-- use this to change the title if needed -->
 {% block title %}
 Trent Kontovich: Resume
 {% endblock %}
 
-<!-- main page content -->
 {% block body %}
 
 <div class="page-width">
@@ -17,49 +15,62 @@ Trent Kontovich: Resume
         </div>
     </section>
 
-<div class="content" id="resume-main">
-
-    <section class="resume-section" aria-labelledby="glance-heading">
-        <div class="section-head">
-            <h2 class="section-title" id="glance-heading">Career at a glance</h2>
-            <p class="section-intro">Select a role to see what it involved.</p>
-        </div>
-
-        <div class="career-panel">
-            <div class="career-chart" id="career-chart" data-domain-start="{{ resume.domain_start }}" data-domain-months="{{ resume.domain_months }}">
-                {% for job in resume.timeline %}
-                <div class="span-row">
-                    <div class="span-label">
-                        <span class="span-company">{{ job.company }}</span>
-                        <span class="span-role">{{ job.short_title }}</span>
-                    </div>
-                    <div class="span-track">
-                        <button type="button"
-                                class="span-bar{% if job.is_current %} span-bar--current{% endif %}"
-                                style="left: {{ job.left }}; width: {{ job.width }};"
-                                data-role="{{ job.key }}"
-                                {% if job.is_current %}data-current-start="{{ job.start }}"{% endif %}
-                                aria-controls="panel-{{ job.key }}"
-                                aria-pressed="{% if job.is_selected %}true{% else %}false{% endif %}"
-                                aria-label="{{ job.title }}, {{ job.company }}, {{ job.dates }}"></button>
-                    </div>
-                </div>
-                {% endfor %}
-                <div class="span-axis" aria-hidden="true">
-                    <div></div>
-                    <div class="span-ticks">
-                        {% for tick in resume.ticks %}<span style="left: {{ tick.left }};">{{ tick.year }}</span>{% endfor %}
-                    </div>
-                </div>
+    <div class="content" id="resume-main">
+        <section class="resume-section" aria-labelledby="glance-heading">
+            <div class="section-head">
+                <h2 class="section-title" id="glance-heading">Career at a glance</h2>
+                <p class="section-intro">Select a role to see what it involved.</p>
             </div>
 
-            <div class="role-panels" aria-live="polite">
+            <div class="career-panel">
+                {% comment %}
+                The timeline is a set of tabs: each bar selects a role panel below it.
+                Tab and arrow keys move between roles, and the Earlier and Later
+                buttons offer a larger, labeled way to do the same.
+                {% endcomment %}
+                <div class="career-chart" id="career-chart" role="tablist" aria-label="Roles, oldest to newest" aria-orientation="vertical"
+                     data-domain-start="{{ resume.domain_start }}" data-domain-months="{{ resume.domain_months }}">
+                    {% for job in resume.timeline %}
+                    <div class="span-row" role="presentation">
+                        <div class="span-label" aria-hidden="true">
+                            <span class="span-company">{{ job.company }}</span>
+                            <span class="span-role">{{ job.short_title }}</span>
+                        </div>
+                        <div class="span-track" role="presentation">
+                            <button type="button" role="tab"
+                                    id="tab-{{ job.key }}"
+                                    class="span-bar{% if job.is_current %} span-bar--current{% endif %}"
+                                    style="left: {{ job.left }}; width: {{ job.width }};"
+                                    data-role="{{ job.key }}"
+                                    {% if job.is_current %}data-current-start="{{ job.start }}"{% endif %}
+                                    aria-controls="panel-{{ job.key }}"
+                                    aria-selected="{% if job.is_selected %}true{% else %}false{% endif %}"
+                                    tabindex="{% if job.is_selected %}0{% else %}-1{% endif %}"
+                                    aria-label="{{ job.title }}, {{ job.company }}, {{ job.dates }}"></button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="span-axis" aria-hidden="true">
+                        <div></div>
+                        <div class="span-ticks">
+                            {% for tick in resume.ticks %}<span style="left: {{ tick.left }};">{{ tick.year }}</span>{% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="role-stepper" hidden>
+                    <button type="button" class="stepper-button" id="role-earlier"><span aria-hidden="true">&larr;</span> Earlier <span class="stepper-word">role</span></button>
+                    <span class="stepper-count" id="role-count" aria-hidden="true"></span>
+                    <button type="button" class="stepper-button" id="role-later">Later <span class="stepper-word">role</span> <span aria-hidden="true">&rarr;</span></button>
+                </div>
+                <p class="visually-hidden" id="role-announcer" aria-live="polite"></p>
+
                 {% for job in resume.jobs %}
-                <div class="role-panel" id="panel-{{ job.key }}" data-role="{{ job.key }}"{% if not job.is_selected %} hidden{% endif %}>
+                <div class="role-panel" id="panel-{{ job.key }}" role="tabpanel" aria-labelledby="tab-{{ job.key }}" tabindex="0"{% if not job.is_selected %} hidden{% endif %}>
                     <div class="role-panel-head">
                         <div>
                             <h3 class="role-title">{{ job.title }}</h3>
-                            <p class="position-meta subheader-text">
+                            <p class="position-meta">
                                 <span>{{ job.company }}</span><span class="separator" aria-hidden="true">&middot;</span><span>{{ job.dates }}</span>
                             </p>
                         </div>
@@ -68,133 +79,100 @@ Trent Kontovich: Resume
                             <span class="role-tenure-unit">{{ job.tenure_unit }}</span>
                         </div>
                     </div>
-                    {% with content_id="panel-content-"|add:job.key %}
-                    {% include "mysite/_expandable.html" %}
-                    {% endwith %}
+                    <div class="role-writeup">
+                        {{ job.summary|markdown }}
+                        {% if job.details %}{{ job.details|markdown }}{% endif %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>
-        </div>
-    </section>
-
-
-</div>
+        </section>
+    </div>
 </div>
 
 <script>
     (function () {
-        // A role's write-up is "clamped" (clipped with a fade and See more), "expanded"
-        // (full, with Collapse), or "fits" (short enough to need neither).
-        // Nothing is clipped until this script runs, so the text is never lost.
-        const blocks = Array.from(document.querySelectorAll('.expandable'));
-        const ANIMATION_MS = 400;
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        function setState(block, state) {
-            block.dataset.state = state;
-            block.classList.toggle('is-clamped', state === 'clamped');
-            block.querySelector('.expandable-more').hidden = state !== 'clamped';
-            block.querySelector('.expandable-less').hidden = state !== 'expanded';
-        }
-
-        function measure(block) {
-            // Hidden role panels have no size yet; they're measured when selected.
-            if (block.dataset.state === 'expanded' || block.offsetParent === null) return;
-            const content = block.querySelector('.expandable-content');
-            content.style.maxHeight = '';
-            block.classList.add('is-clamped');
-            setState(block, content.scrollHeight > content.clientHeight + 4 ? 'clamped' : 'fits');
-        }
-
-        function expand(block, moveFocus) {
-            const content = block.querySelector('.expandable-content');
-            content.style.maxHeight = content.scrollHeight + 'px';
-            setState(block, 'expanded');
-            if (moveFocus) block.querySelector('.expandable-less').focus({ preventScroll: true });
-            // Release the height once the animation ends, so resizing never clips text.
-            setTimeout(function () {
-                if (block.dataset.state === 'expanded') content.style.maxHeight = 'none';
-            }, ANIMATION_MS);
-        }
-
-        function collapse(block) {
-            const content = block.querySelector('.expandable-content');
-            content.style.maxHeight = content.scrollHeight + 'px';
-            void content.offsetHeight; // start the animation from the full height
-            content.style.maxHeight = '';
-            setState(block, 'clamped');
-            block.querySelector('.expandable-more').focus({ preventScroll: true });
-
-            // Collapsing a long entry from its bottom can leave its start above the
-            // top of the window, so bring the entry back into view.
-            const entry = block.closest('.role-panel');
-            if (entry.getBoundingClientRect().top < 24) {
-                entry.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
-            }
-        }
-
         const chart = document.getElementById('career-chart');
-        if (chart) {
-            const bars = Array.from(chart.querySelectorAll('.span-bar'));
-            const panels = Array.from(document.querySelectorAll('.role-panel'));
+        if (!chart) return;
 
-            bars.forEach(function (bar) {
-                bar.addEventListener('click', function () {
-                    bars.forEach(b => b.setAttribute('aria-pressed', String(b === bar)));
-                    panels.forEach(function (panel) {
-                        panel.hidden = panel.dataset.role !== bar.dataset.role;
-                        // Every role opens clipped, however it was left.
-                        const block = panel.querySelector('.expandable');
-                        if (!panel.hidden && block) {
-                            delete block.dataset.state;
-                            measure(block);
-                        }
-                    });
-                });
+        // Bars and their labels are in timeline order, oldest first.
+        const tabs = Array.from(chart.querySelectorAll('[role="tab"]'));
+        const labels = Array.from(chart.querySelectorAll('.span-label'));
+        const stepper = document.querySelector('.role-stepper');
+        const earlier = document.getElementById('role-earlier');
+        const later = document.getElementById('role-later');
+        const count = document.getElementById('role-count');
+        const announcer = document.getElementById('role-announcer');
+        let selected = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+
+        function select(index, options) {
+            const { focusTab = false, announce = false } = options || {};
+            selected = Math.max(0, Math.min(tabs.length - 1, index));
+
+            tabs.forEach(function (tab, i) {
+                const isSelected = i === selected;
+                tab.setAttribute('aria-selected', String(isSelected));
+                tab.tabIndex = isSelected ? 0 : -1;
+                document.getElementById(tab.getAttribute('aria-controls')).hidden = !isSelected;
             });
 
-            // The page is rendered at deploy time, so bring the current role's bar
-            // and tenure up to today. formatTenure mirrors format_tenure in content.py.
-            const monthNumber = value => { const [y, m] = value.split('-').map(Number); return y * 12 + m - 1; };
-            const formatTenure = months => months < 12
-                ? [String(months), months === 1 ? 'month' : 'months']
-                : [(Math.floor(months / 12 * 10 + 0.5) / 10).toFixed(1).replace(/\.0$/, ''), 'years'];
-            const today = new Date();
-            const now = today.getFullYear() * 12 + today.getMonth();
-            const domainStart = monthNumber(chart.dataset.domainStart);
-            const domainMonths = Number(chart.dataset.domainMonths);
+            // At either end the button stays focusable but does nothing, so focus isn't lost.
+            earlier.setAttribute('aria-disabled', String(selected === 0));
+            later.setAttribute('aria-disabled', String(selected === tabs.length - 1));
+            count.textContent = (selected + 1) + ' of ' + tabs.length;
 
-            document.querySelectorAll('[data-current-start]').forEach(function (el) {
-                const start = monthNumber(el.dataset.currentStart);
-                const months = Math.max(0, now - start);
-                if (el.classList.contains('span-bar')) {
-                    const room = domainStart + domainMonths - start;
-                    el.style.width = (Math.min(months, room) / domainMonths * 100).toFixed(3) + '%';
-                } else {
-                    const [value, unit] = formatTenure(months);
-                    el.querySelector('.role-tenure-value').textContent = value;
-                    el.querySelector('.role-tenure-unit').textContent = unit;
-                }
-            });
+            const tab = tabs[selected];
+            if (focusTab) tab.focus();
+            // Arrow keys move focus to the tab, which screen readers announce on their
+            // own. The Earlier and Later buttons keep focus, so they announce here.
+            if (announce) announcer.textContent = tab.getAttribute('aria-label') + '. Role ' + (selected + 1) + ' of ' + tabs.length + '.';
         }
 
-        // Printed or saved-as-PDF copies should include everything.
-        window.addEventListener('beforeprint', () => blocks.forEach(function (block) {
-            if (block.dataset.state === 'clamped') expand(block, false);
-        }));
-
-        blocks.forEach(function (block) {
-            block.querySelector('.expandable-more').addEventListener('click', () => expand(block, true));
-            block.querySelector('.expandable-less').addEventListener('click', () => collapse(block));
+        tabs.forEach(function (tab, i) {
+            tab.addEventListener('click', () => select(i));
+            tab.addEventListener('keydown', function (event) {
+                const moves = { ArrowUp: i - 1, ArrowLeft: i - 1, ArrowDown: i + 1, ArrowRight: i + 1, Home: 0, End: tabs.length - 1 };
+                if (!(event.key in moves)) return;
+                event.preventDefault();
+                select(moves[event.key], { focusTab: true });
+            });
         });
-        blocks.forEach(measure);
+        labels.forEach((label, i) => label.addEventListener('click', () => select(i)));
 
-        // Web fonts and window width both change where text wraps, so measure again.
-        if (document.fonts) document.fonts.ready.then(() => blocks.forEach(measure));
-        let resizeTimer;
-        window.addEventListener('resize', function () {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => blocks.forEach(measure), 150);
+        earlier.addEventListener('click', function () {
+            if (selected > 0) select(selected - 1, { announce: true });
+        });
+        later.addEventListener('click', function () {
+            if (selected < tabs.length - 1) select(selected + 1, { announce: true });
+        });
+
+        // The homepage resume preview links here with a role in the address, like #role-2.
+        const linked = tabs.findIndex(tab => '#' + tab.dataset.role === window.location.hash);
+        select(linked === -1 ? selected : linked);
+        stepper.hidden = false;
+
+        // The page is rendered at deploy time, so bring the current role's bar
+        // and tenure up to today. formatTenure mirrors format_tenure in content.py.
+        const monthNumber = value => { const [y, m] = value.split('-').map(Number); return y * 12 + m - 1; };
+        const formatTenure = months => months < 12
+            ? [String(months), months === 1 ? 'month' : 'months']
+            : [(Math.floor(months / 12 * 10 + 0.5) / 10).toFixed(1).replace(/\.0$/, ''), 'years'];
+        const today = new Date();
+        const now = today.getFullYear() * 12 + today.getMonth();
+        const domainStart = monthNumber(chart.dataset.domainStart);
+        const domainMonths = Number(chart.dataset.domainMonths);
+
+        document.querySelectorAll('[data-current-start]').forEach(function (el) {
+            const start = monthNumber(el.dataset.currentStart);
+            const months = Math.max(0, now - start);
+            if (el.classList.contains('span-bar')) {
+                const room = domainStart + domainMonths - start;
+                el.style.width = (Math.min(months, room) / domainMonths * 100).toFixed(3) + '%';
+            } else {
+                const [value, unit] = formatTenure(months);
+                el.querySelector('.role-tenure-value').textContent = value;
+                el.querySelector('.role-tenure-unit').textContent = unit;
+            }
         });
     })();
 </script>

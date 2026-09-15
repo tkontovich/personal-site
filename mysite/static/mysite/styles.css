@@ -30,6 +30,7 @@
     --pad: clamp(20px, 4vw, 44px);
     --radius-panel: 22px;
     --radius-card: 16px;
+    --card-pad-y: 20px;
 
     color-scheme: light;
 }
@@ -341,6 +342,11 @@ main:focus {
     font-size: 1.1rem;
 }
 
+.section-title,
+.card-title {
+    text-box: trim-both cap alphabetic;
+}
+
 /* A small summit marker in the accent color. */
 .section-title::before,
 .card-title::before {
@@ -358,7 +364,7 @@ main:focus {
 }
 
 .prose > .section-title + * {
-    margin-top: 16px;
+    margin-top: 20px;
 }
 
 .prose p {
@@ -385,16 +391,24 @@ main:focus {
     }
 }
 
+/* Side by side, drop About me by the card's top border and padding so its
+   heading lines up with the heading inside the card next to it. */
+@media (min-width: 841px) {
+    .home-grid > .prose {
+        padding-top: calc(var(--card-pad-y) + 1px);
+    }
+}
+
 .card {
     display: block;
-    padding: 20px 22px;
+    padding: var(--card-pad-y) 22px;
     border: 1px solid var(--rule);
     border-radius: var(--radius-card);
     background-color: var(--card);
 }
 
 .link-list {
-    margin-top: 10px;
+    margin-top: 14px;
     padding: 0;
     list-style: none;
 }
@@ -437,7 +451,7 @@ main:focus {
 .mini-chart {
     display: grid;
     gap: 6px;
-    margin-top: 14px;
+    margin-top: 16px;
 }
 
 .mini-row {
@@ -461,10 +475,19 @@ main:focus {
     bottom: 0;
     border-radius: 3px;
     background-color: var(--bar);
+    transition: background-color 0.15s ease;
 }
 
-.mini-track i.is-current {
+.mini-label {
+    transition: color 0.15s ease;
+}
+
+.mini-row.is-active .mini-track i {
     background-color: var(--accent);
+}
+
+.mini-row.is-active .mini-label {
+    color: var(--ink);
 }
 
 .resume-card-foot {
@@ -501,7 +524,7 @@ main:focus {
 }
 
 .section-intro {
-    margin-top: 6px;
+    margin-top: 12px;
     color: var(--muted);
 }
 
@@ -578,8 +601,23 @@ main:focus {
     background-color: var(--bar-hover);
 }
 
-.span-bar[aria-pressed="true"] {
+.span-bar[aria-selected="true"] {
     background-color: var(--accent);
+}
+
+/* Stretch each bar's click target to the full height of its row. */
+.span-bar::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: 0;
+    bottom: -4px;
+    left: 0;
+}
+
+/* Clicking a role's label selects it too. */
+.span-label {
+    cursor: pointer;
 }
 
 .span-ticks {
@@ -606,10 +644,8 @@ main:focus {
 }
 
 .role-panel {
-    margin-top: 20px;
-    padding: 24px 0;
-    border-top: 1px solid var(--rule);
-    scroll-margin-top: 24px;
+    margin-top: 22px;
+    padding-bottom: 24px;
 }
 
 /* Title and dates on the left, time in the role on the right, at every width. */
@@ -665,88 +701,100 @@ main:focus {
     text-transform: uppercase;
 }
 
-/* "See more": a write-up clipped to about five lines with a fade. */
-.expandable {
-    position: relative;
+.role-writeup {
     max-width: 72ch;
-    margin-top: 14px;
+    margin-top: 16px;
 }
 
-.expandable-content {
-    overflow: hidden;
-    transition: max-height 0.35s ease;
-}
-
-.expandable.is-clamped .expandable-content {
-    max-height: calc(5 * 1.7em + 4px);
-}
-
-.expandable-content > * + * {
+.role-writeup > * + * {
     margin-top: 0.8em;
 }
 
-.expandable-content ul {
+.role-writeup ul {
     padding-left: 1.2em;
 }
 
-.expandable-content li + li {
+.role-writeup li + li {
     margin-top: 0.6em;
 }
 
-.expandable.is-clamped::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 4.5em;
-    background: linear-gradient(to bottom, var(--card-clear), var(--card) 70%);
-    pointer-events: none;
+/* Earlier and later buttons: a large, labeled alternative to the timeline bars. */
+.role-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
 }
 
-.expandable-toggle {
+.stepper-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.5em;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--ink);
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background-color: var(--bg);
     font-family: var(--font-display);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
+    line-height: 1;
     cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.expandable-toggle:hover {
+.stepper-button:hover:not([aria-disabled="true"]) {
+    border-color: var(--accent);
     color: var(--accent-ink);
 }
 
-.expandable-toggle::after {
-    content: "";
-    width: 0.45em;
-    height: 0.45em;
-    margin-top: -0.25em;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg);
+/* At either end the button stays focusable but does nothing, so focus isn't lost. */
+.stepper-button[aria-disabled="true"] {
+    color: var(--muted);
+    opacity: 0.5;
+    cursor: default;
 }
 
-/* "See more" sits on the fade; "Collapse" follows the full text. */
-.expandable-more {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
+.stepper-button,
+.stepper-count {
+    white-space: nowrap;
 }
 
-.expandable-less {
-    margin-top: 10px;
+.stepper-count {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
 }
 
-.expandable-less::after {
-    margin-top: 0.3em;
-    transform: rotate(-135deg);
+/* On phones the buttons read "Earlier" and "Later". The word "role" is only
+   hidden visually, so screen readers still hear "Earlier role". */
+@media (max-width: 480px) {
+    .stepper-button {
+        padding: 10px 13px;
+    }
+
+    .stepper-word {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 @media (max-width: 600px) {
@@ -960,12 +1008,17 @@ main:focus {
     margin-top: 32px;
 }
 
-.prose h2 {
-    margin-top: 1.6em;
+/* Headings inside a project write-up. Section titles (like About me on the
+   homepage) keep their own size and get no extra space above them. */
+.prose h2:not(.section-title) {
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1.2;
+}
+
+.prose > * + h2:not(.section-title) {
+    margin-top: 1.6em;
 }
 
 .prose img {
@@ -1005,6 +1058,20 @@ main:focus {
 
     .project-card--featured .project-cover {
         aspect-ratio: 16 / 10;
+    }
+}
+
+/* Printed or saved-as-PDF resumes list every role instead of the one selected. */
+@media print {
+    .career-chart,
+    .role-stepper,
+    .site-header,
+    .theme-toggle {
+        display: none !important;
+    }
+
+    .role-panel[hidden] {
+        display: block !important;
     }
 }
 
