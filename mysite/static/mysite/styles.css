@@ -151,7 +151,8 @@ main:focus {
     align-items: center;
     gap: 12px;
     min-height: 58px;
-    padding: 7px 7px 7px var(--pad);
+    /* Less 1px for the border, so the brand lines up with the page titles below. */
+    padding: 6px 6px 6px calc(var(--pad) - 1px);
     border: 1px solid var(--rule);
     border-radius: 999px;
     background-color: var(--card);
